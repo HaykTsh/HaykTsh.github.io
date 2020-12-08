@@ -2,18 +2,83 @@
 <html>
     <head>
         <title>Hayksite</title>
+        <style>
+            body {
+                background: rgb(168, 150, 179);
+                color: rgb(45, 45, 45);
+                padding: 15px;
+                font-family: cursive;
+            }
+            #all-contents {
+                max-width: 900px;
+                margin: auto;
+            }
+
+            /* navigation menu */
+            nav {
+                background: rgb(167, 126, 189);
+                margin: 0 auto;
+                margin-bottom: 20px;
+                display: flex;
+                padding: 10px;
+            }
+            h1 {
+                display: flex;
+                align-items: center;
+                color: white;
+                flex: 1;
+                margin: 0;
+            }
+            #nav-ul {
+                list-style-image: none;
+            }
+            .nav-li {
+                display: inline-block;
+                padding: 0 5px;
+            }
+            a {
+                text-decoration: none;
+                color: #fff;
+            }
+
+            /* main container area beneath menu */
+            main {
+                background: rgb(224, 224, 224);
+                display: flex;
+            }
+            .sidebar {
+                margin-right: 25px;
+                padding: 10px;
+            }
+            .sidebar-img {
+                width: 480px;
+            }
+            .content {
+                flex: 1;
+                padding: 15px;
+                background: rgb(195, 179, 199);
+            }
+            #interests {
+                border: 4px silver ridge;
+                padding: 4px;
+                background: rgb(224, 224, 224);
+            }
+            h2, h3 {
+                margin: 15px;
+            }
+        </style>
     </head>
 
     <body>
         <!--All content goes here-->
-        <div>
-            <nav>
+        <div id="all-contents">
+            <nav id="nav-ul">
                 <h2>Hayksite</h2>
                 <ul>
-                    <li>
+                    <li class="nav-li">
                         <a href="index.html">Home</a>
                     </li>
-                    <li>
+                    <li class="nav-li">
                         <a href="portfolio.html">Portfolio</a>
                     </li>
                 </ul>
@@ -21,12 +86,12 @@
 
             <main>
                 <!--Sidebar section-->
-                <div>
-                <img src="https://i.ytimg.com/vi/i8YQhmMK98U/mqdefault.jpg">
+                <div class="sidebar">
+                <img class="sidebar-img" src="https://i.ytimg.com/vi/i8YQhmMK98U/mqdefault.jpg">
                 </div>
 
                 <!--Content Section-->
-                <div>
+                <div class="content">
                     <h2> Hayk </h2>
 
                     <p>
@@ -34,10 +99,10 @@
                     </p>
 
                     <!--Interests Section-->
-                    <div>
+                    <div id="interests">
                         <h3>Interests</h3>
                         <ul>
-                            <li>Cheesburgers</li>
+                            <li>Listening to Music</li>
                             <li>Playing Guitar</li>
                             <li>Playing Video Games</li>
                         </ul>
