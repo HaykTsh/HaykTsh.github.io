@@ -24,8 +24,8 @@
             
         }
         
-        /* 
-        // Fire on Spacebar Code:
+       /* 
+       Fire on Spacebar Code:
         
         game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
         var fireKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -35,9 +35,9 @@
             console.log('playerManager says to fire!');
             player.fire();
         }
-        */
+       */ 
         
-        function update() {
+       function update() {
             // todo : fix states to include velocity or keyup/cursorLeft //
             if (asset.body && player.getStateName() !== 'flyingJump') asset.body.velocity.x = 0;
             if (cursors.left.isDown) {
