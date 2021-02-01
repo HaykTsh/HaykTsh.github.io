@@ -14,7 +14,7 @@
 			display: block;
 			position: absolute;
 			top: 100px;
-			left: 0px;  /* <--- Change me! */
+			left: 10px;  /* <--- Change me! */
 		}
 	</style>
 	<!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
@@ -59,7 +59,8 @@
 			
 			// TODO 2 - Variable declarations 
 			
-
+            var positionX = 0;
+            var points = 0;
 			
 			/* 
 			This Function will be called 20 times/second. Each time it is called,
@@ -67,7 +68,8 @@
 			turn it around! 
 			*/
 			function update() {
-				
+                positionX = positionX + 10;
+				moveBoxTo(positionX);
 
 			};
 
@@ -77,8 +79,9 @@
 			the left side of the screen.
 			*/
 			function handleBoxClick() {
-				
-
+                positionX = 0;
+                points = points + 1;
+                chnageBoxText(points);
 
 			};
 		})();
