@@ -61,6 +61,7 @@
 			
             var positionX = 0;
             var points = 0;
+            var speed = 10;
 			
 			/* 
 			This Function will be called 20 times/second. Each time it is called,
@@ -68,10 +69,17 @@
 			turn it around! 
 			*/
 			function update() {
-                positionX = positionX + 10;
-				moveBoxTo(positionX);
-
-			};
+                positionX = positionX + speed;
+                moveBoxTo(positionX);
+                
+                if (positionX > boardWidth) {
+                    speed = -speed;
+                }
+                if (positionX < 0) {
+                    speed = -speed;
+                }
+                
+            };
 
 			/* 
 			This Function will be called each time the box is clicked. Each time it is called,
@@ -79,9 +87,10 @@
 			the left side of the screen.
 			*/
 			function handleBoxClick() {
+                speed = speed + 3;
                 positionX = 0;
                 points = points + 1;
-                chnageBoxText(points);
+                changeBoxText(points);
 
 			};
 		})();
