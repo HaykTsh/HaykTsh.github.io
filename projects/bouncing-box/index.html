@@ -10,7 +10,7 @@
 			height: 70px;
             background-image: url(https://nyc3.digitaloceanspaces.com/memecreator-cdn/media/__processed__/2da/template-when-the-imposter-is-sus-sus-jerma-1568-0c6db91aec9c.png);
             background-size: 70px 70px;
-			background-color:firebrick;
+			background-color: rgb(0, 0, 0);
             border-style: solid;
             border-color: palegoldenrod;
 			font-size: 300%;
@@ -52,11 +52,9 @@
 
             // Every 50 milliseconds, call the update Function (see below)
             setInterval(update, 50);
-            //var interval = setInterval(update, 50);
 			
 			// Every time the box is clicked, call the handleBoxClick Function (see below)
             box.on('click', handleBoxClick);
-            //board.on('click', misclick);
 
 			// moves the Box to a new position on the screen along the X-Axis
 			function moveBoxTo(newPositionX, newPositionY) {
@@ -74,15 +72,17 @@
 			//////////////////////////////////////////////////////////////////
 			
 			// TODO 2 - Variable declarations 
-			
+
             var positionX = 0;
             var positionY = 0;
+            var directionX = 1;
+            var directionY = 1;
             var points = 0;
             var speed = 10;
             var speedY = 10;
             var clickSpawnX = Math.random() * (boardWidth);
             var clickSpawnY = Math.random() * (boardHeight);
-            //var mistakes = 0;
+            var color = rgb(255, 255, 255);
 			
 			/* 
 			This Function will be called 20 times/second. Each time it is called,
@@ -90,63 +90,57 @@
 			turn it around! 
 			*/
 			function update() {
-                positionX += speed;
-                positionY += speedY;
+
+                //Moves the Box
+                positionX += (speed * directionX);
+                positionY += (speedY * directionY);
                 moveBoxTo(positionX, positionY);
                 
+                //Changes Direction When Touching Border
                 if (positionX > boardWidth) {
-                    speed = -speed;
+                    directionX = -1;
                 }
 
                 if (positionX < 0) {
-                    speed = -speed;
+                    directionX = 1;
                 }
                 
                 if (positionY > boardHeight) {
-                    speedY = -speedY;
+                    directionY = -1;
                 }
 
                 if (positionY < 0) {
-                    speedY = -speedY;
+                    directionY = 1;
                 }
 
-                /*
-                if (mistakes >= 10) {
-                    endGame();
-                }
-                */
+                //Changes Color
+                box.css('background-color', "rgb("+ (0 + (10 * points)) +", "+ (255 - (10 * points)) +", 0)");
             };
 
 			/* 
 			This Function will be called each time the box is clicked. Each time it is called,
 			it should increase the points total, increase the speed, and move the box to
 			the left side of the screen.
-			*/
+            */
+            
 			function handleBoxClick() {
+
+                //Change Speed
                 speed = speed + 3;
                 speedY = speedY + 1;
+
+                //Changes Location When Clicked
                 positionX = clickSpawnX;
                 positionY = clickSpawnY;
+                clickSpawnX = Math.random() * (boardWidth);
+                clickSpawnY = Math.random() * (boardHeight);
+                
+                //Change Points
                 points = points + 1;
                 changeBoxText(points);
 
             }
             
-            /*
-            function misclick() {
-                mistakes = mistakes + 1
-            }
-
-            function endGame() {
-                clearInterval(interval);
-            }
-            */
-
-            //TO DO:
-            //
-            //endGame()
-            //Fix clickSpawns
-            //Maybe change color on click
 		})();
 	</script>
 </body>
