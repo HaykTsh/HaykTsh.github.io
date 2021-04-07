@@ -57,16 +57,23 @@ var level01 = function (window) {
         var redSquare = draw.rect(50,50,'red');
         redSquare.x = -25;
         redSquare.y = -25;
-
-        enemy.addChild(redSquare);
-
+            enemy.addChild(redSquare);
         enemy.x = 400;
         enemy.y = groundY-50;
-
-        game.addGameItem(enemy);
+            game.addGameItem(enemy);
 
         enemy.velocityX = -1;
         enemy.rotationVelocity = 10;
+
+        enemy.onPlayerCollision = function() {
+            
+            game.changeIntegrity(-10);
+        };
+
+        enemy.onProjectileCollision = function() {
+
+            game.changeScore(100);
+        }
 
         // DO NOT EDIT CODE BELOW HERE
     }
