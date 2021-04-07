@@ -23,10 +23,12 @@ var level01 = function (window) {
         };
         window.levelData = levelData;
         // set this to true or false depending on if you want to see hitzones
-        game.setDebugMode(false);
+        game.setDebugMode(true);
 
         // TODO 6 and on go here
         // BEGIN EDITING YOUR CODE HERE
+
+        // Saw
 
         function createSawBlade(x, y) {
 
@@ -47,6 +49,24 @@ var level01 = function (window) {
         createSawBlade(200, groundY);
         createSawBlade(400, groundY - 70);
         createSawBlade(500, 175);
+
+
+        // Enemy
+
+        var enemy = game.createGameItem('enemy',25);
+        var redSquare = draw.rect(50,50,'red');
+        redSquare.x = -25;
+        redSquare.y = -25;
+
+        enemy.addChild(redSquare);
+
+        enemy.x = 400;
+        enemy.y = groundY-50;
+
+        game.addGameItem(enemy);
+
+        enemy.velocityX = -1;
+        enemy.rotationVelocity = 10;
 
         // DO NOT EDIT CODE BELOW HERE
     }
