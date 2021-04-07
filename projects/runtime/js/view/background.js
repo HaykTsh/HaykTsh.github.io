@@ -76,7 +76,7 @@ var background = function (window) {
 
                 var buildingHeight = 200*Math.random() + 100;
                 var building = draw.rect(50,buildingHeight, bColor,'gray',2);
-                building.x = 200*i;
+                building.x = 200*i + (Math.random()*150);
                 building.y = groundY-buildingHeight;
                 background.addChild(building);
                 buildings.push(building);
