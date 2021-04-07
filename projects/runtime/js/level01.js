@@ -72,7 +72,7 @@ var level01 = function (window) {
 
         enemy.onProjectileCollision = function() {
 
-            game.changeScore(100);
+            game.increaseScore(100);
         }
 
         // DO NOT EDIT CODE BELOW HERE
