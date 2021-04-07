@@ -73,6 +73,7 @@ var level01 = function (window) {
         enemy.onProjectileCollision = function() {
 
             game.increaseScore(100);
+            enemy.fadeOut();
         }
 
         // DO NOT EDIT CODE BELOW HERE
