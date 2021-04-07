@@ -47,7 +47,7 @@ var level01 = function (window) {
         }
 
         createSawBlade(200, groundY);
-        createSawBlade(400, groundY - 90);
+        createSawBlade(400, groundY - 100);
         createSawBlade(500, 175);
 
 
