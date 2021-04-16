@@ -39,7 +39,9 @@ var background = function (window) {
             // TODO: 2 - Part 2
             // this fills the background with a obnoxious yellow
             // you should modify this to suit your game
-            var backgroundFill = draw.rect(canvasWidth,groundY,'lightBlue');
+            var backgroundFill = draw.rect(canvasWidth,groundY,'#5E1914');
+            var backgroundFill2 = draw.rect(canvasWidth,0,'black');
+            background.addChild(backgroundFill2);
             background.addChild(backgroundFill);
             
             // TODO: 3 - Add a moon and starfield
@@ -54,7 +56,7 @@ var background = function (window) {
             */
 
             for (var i = 1; i < 101; i++) {
-                var circle = draw.circle(10*Math.random() + 10,'#FFF','lightGrey',4);
+                var circle = draw.circle(10*Math.random() + 10,'maroon','black',4);
                 circle.x = canvasWidth*Math.random();
                 circle.y = groundY*Math.random() - 20;
                 background.addChild(circle);
@@ -67,15 +69,15 @@ var background = function (window) {
                 var bColor;
                 if(i % 2 == 0) {
 
-                    bColor = 'white';
+                    bColor = '#7C0A02';
                 }
                 else {
 
-                    bColor = 'lightGray';
+                    bColor = '#C21A09';
                 }
 
                 var buildingHeight = 200*Math.random() + 100;
-                var building = draw.rect(50,buildingHeight, bColor,'gray',2);
+                var building = draw.rect(50,buildingHeight, bColor,'black',2);
                 building.x = 200*i + (Math.random()*150);
                 building.y = groundY-buildingHeight;
                 background.addChild(building);

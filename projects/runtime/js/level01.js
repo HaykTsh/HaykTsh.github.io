@@ -62,7 +62,7 @@ var level01 = function (window) {
        // TODO 6 and on go here
        // BEGIN EDITING YOUR CODE HERE
  
-       // Saw / Pitchforks / Fire
+       // Lost Souls // Cacodmeon // Pain Elemental
  
        function createObstacle(x, y) {
  
