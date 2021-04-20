@@ -35,12 +35,12 @@ var background = function (window) {
         // add objects for display in background. draws each image added to the background once
         function render() {
             background.removeAllChildren();
-
+ 
             // TODO: 2 - Part 2
             // this fills the background with a obnoxious yellow
             // you should modify this to suit your game
-            var backgroundFill = draw.rect(canvasWidth,groundY,'#5E1914');
             var backgroundFill2 = draw.rect(canvasWidth,0,'black');
+            var backgroundFill = draw.rect(canvasWidth,groundY,'#5E1914');
             background.addChild(backgroundFill2);
             background.addChild(backgroundFill);
             

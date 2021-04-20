@@ -57,13 +57,16 @@ var level01 = function (window) {
  
        window.levelData = levelData;
        // set this to true or false depending on if you want to see hitzones
-       game.setDebugMode(false);
+       game.setDebugMode(true);
  
        // TODO 6 and on go here
        // BEGIN EDITING YOUR CODE HERE
  
        // Lost Souls // Cacodmeon // Pain Elemental
  
+       var obstacleImage;
+       var imageRand;
+
        function createObstacle(x, y) {
  
            var hitZoneSize = 25;
@@ -74,21 +77,34 @@ var level01 = function (window) {
            obstacleHitZone.y = groundY - y;
            game.addGameItem(obstacleHitZone);
 
-           var obstacleImage;
-           if (y === 0) {
-           
-                obstacleImage = draw.bitmap('img/fire.png');
-                obstacleImage.scaleX = 0.4;
-                obstacleImage.scaleY = 0.3;
-           }
-           else {
+           imageRand = Math.random()*3;
 
-                obstacleImage = draw.bitmap('img/');
+           if(imageRand > 2) {
+           
+                obstacleImage = draw.bitmap('img/Soul.png');
+                obstacleImage.scaleX = 1.4;
+                obstacleImage.scaleY = 1.4;
+                obstacleImage.x = -100;
+                obstacleImage.y = -88;
+           }
+           else if(imageRand > 1){
+
+                obstacleImage = draw.bitmap('img/Pain.png');
+                obstacleImage.scaleX = 0.9;
+                obstacleImage.scaleY = 0.9;
+                obstacleImage.x = -69;
+                obstacleImage.y = -60;
+           }
+           else{
+
+                obstacleImage = draw.bitmap('img/Caco.png');
+                obstacleImage.scaleX = 0.9;
+                obstacleImage.scaleY = 0.9;
+                obstacleImage.x = -69;
+                obstacleImage.y = -60;
            }
 
            obstacleHitZone.addChild(obstacleImage); 
-           obstacleImage.x = -54;
-           obstacleImage.y = -50;
        }
 
 
@@ -108,39 +124,63 @@ var level01 = function (window) {
        //    obstacleImage.y = -25;
        //}
 
- 
-       //Imp
-       function createImp(x, y) {
- 
-           var hitZone = 25;
-           var damage = 10;
-           var impZone = game.createObstacle(hitZone, damage);
- 
-           impZone.x = x;
-           impZone.y = groundY - y;
-           game.addGameItem(impZone);
- 
-           var impImage = draw.bitmap('img/sawblade.png');
-           impZone.addChild(impImage); 
-           impImage.x = -25;
-           impImage.y = -25;
-       }
- 
-
        //createSawBlade(500, 120);
  
  
        // Enemy
+
+       var enemySprite;
+       var enemyRand;
  
        function createEnemy(x, y) {
  
            // Create Enemy and Sprite
            var enemy = game.createGameItem('enemy',25);
-           var redSquare = draw.rect(50,50,'red');
-           redSquare.x = -25;
-           redSquare.y = -25;
+
+            enemyRand = Math.random() * 5;
+
+            if(enemyRand > 4) {
+
+                enemySprite = draw.bitmap('img/Zombie.png');
+                enemySprite.scaleX = 1.5;
+                enemySprite.scaleY = 1.5;
+                enemySprite.x = -105;
+                enemySprite.y = -85;
+            }
+            else if(enemyRand > 3) {
+
+                enemySprite = draw.bitmap('img/Rev.png');
+                enemySprite.scaleX = 1.5;
+                enemySprite.scaleY = 1.5;
+                enemySprite.x = -110;
+                enemySprite.y = -97;
+            }
+            else if(enemyRand > 2) {
+
+                enemySprite = draw.bitmap('img/Pinky.png');
+                enemySprite.scaleX = 1.5;
+                enemySprite.scaleY = 1.5;
+                enemySprite.x = -105;
+                enemySprite.y = -85;
+            }
+            else if(enemyRand > 1) {
+
+                enemySprite = draw.bitmap('img/Imp.png');
+                enemySprite.scaleX = 1.5;
+                enemySprite.scaleY = 1.5;
+                enemySprite.x = -115;
+                enemySprite.y = -85;
+            }
+            else{
+
+                enemySprite = draw.bitmap('img/Baron.png');
+                enemySprite.scaleX = 1.5;
+                enemySprite.scaleY = 1.5;
+                enemySprite.x = -120;
+                enemySprite.y = -85;
+            }
  
-           enemy.addChild(redSquare);
+           enemy.addChild(enemySprite);
           
            // Pos
            enemy.x = x;
@@ -150,7 +190,6 @@ var level01 = function (window) {
  
            // Movement
            enemy.velocityX = -1;
-           enemy.rotationalVelocity = 10;
  
            // Player and Projectile Collision
            enemy.onPlayerCollision = function() {
@@ -165,6 +204,7 @@ var level01 = function (window) {
            }
        }
 
+
  
        //Score Reward
  
@@ -172,11 +212,14 @@ var level01 = function (window) {
  
            //Creation
            var reward = game.createGameItem('reward', 10);
-           var prayer = draw.circle(10, 'blue');
-           //prayer.x = -10;
-           //prayer.y = -10;
+           var box = draw.bitmap('img/Reward.png');
+           box.x = -20;
+           box.y = -15;
+           box.scaleX = .8;
+           box.scaleY = .8;
+           
  
-           reward.addChild(prayer);
+           reward.addChild(box);
           
            //Pos
            reward.x = x;
@@ -186,7 +229,7 @@ var level01 = function (window) {
  
            //Movement
            reward.velocityX = -1;
- 
+
            //Score
            reward.onPlayerCollision = function() {
  
@@ -194,7 +237,9 @@ var level01 = function (window) {
                reward.fadeOut();
            };
        }
- 
+
+
+       
  
        //Health
  
@@ -202,9 +247,13 @@ var level01 = function (window) {
  
            //Creation
            var health = game.createGameItem('reward', 10);
-           var angel = draw.circle(10, 'green');
+           var armor = draw.bitmap('img/Health.png');
+           armor.x = -30;
+           armor.y = -20;
+           armor.scaleX = 1.3;
+           armor.scaleY = 1.3;
  
-           health.addChild(angel);
+           health.addChild(armor);
           
            //Pos
            health.x = x;
@@ -219,9 +268,10 @@ var level01 = function (window) {
            health.onPlayerCollision = function() {
  
                game.changeIntegrity(25);
-               reward.fadeOut();
+               health.fadeOut();
            };
        }
+
 
  
        // DO NOT EDIT CODE BELOW HERE
