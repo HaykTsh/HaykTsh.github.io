@@ -39,10 +39,16 @@ var background = function (window) {
             // TODO: 2 - Part 2
             // this fills the background with a obnoxious yellow
             // you should modify this to suit your game
-            var backgroundFill2 = draw.rect(canvasWidth,0,'black');
-            var backgroundFill = draw.rect(canvasWidth,groundY,'#5E1914');
-            background.addChild(backgroundFill2);
+
+
+            //Black Bar on Bottom
+            var lowerBar = draw.rect(canvasWidth, 800, 'black')
+            lowerBar.y = groundY + 20;
+
+
+            var backgroundFill = draw.rect(canvasWidth, groundY,'#5E1914');
             background.addChild(backgroundFill);
+            background.addChild(lowerBar);
             
             // TODO: 3 - Add a moon and starfield
             
@@ -55,6 +61,7 @@ var background = function (window) {
             background.addChild(moon);
             */
 
+            //Stars
             for (var i = 1; i < 101; i++) {
                 var circle = draw.circle(10*Math.random() + 10,'maroon','black',4);
                 circle.x = canvasWidth*Math.random();
@@ -77,9 +84,9 @@ var background = function (window) {
                 }
 
                 var buildingHeight = 200*Math.random() + 100;
-                var building = draw.rect(50,buildingHeight, bColor,'black',2);
+                var building = draw.rect(50, buildingHeight, bColor,'black', 4);
                 building.x = 200*i + (Math.random()*150);
-                building.y = groundY-buildingHeight;
+                building.y = groundY-buildingHeight-2;
                 background.addChild(building);
                 buildings.push(building);
             }

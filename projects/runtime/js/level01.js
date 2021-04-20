@@ -189,7 +189,7 @@ var level01 = function (window) {
            game.addGameItem(enemy);
  
            // Movement
-           enemy.velocityX = -1;
+           enemy.velocityX = -2;
  
            // Player and Projectile Collision
            enemy.onPlayerCollision = function() {
@@ -217,7 +217,6 @@ var level01 = function (window) {
            box.y = -15;
            box.scaleX = .8;
            box.scaleY = .8;
-           
  
            reward.addChild(box);
           
@@ -228,7 +227,7 @@ var level01 = function (window) {
            game.addGameItem(reward);
  
            //Movement
-           reward.velocityX = -1;
+           reward.velocityX = -2;
 
            //Score
            reward.onPlayerCollision = function() {
@@ -246,7 +245,7 @@ var level01 = function (window) {
        function createHealth(x, y) {
  
            //Creation
-           var health = game.createGameItem('reward', 10);
+           var health = game.createGameItem('health', 10);
            var armor = draw.bitmap('img/Health.png');
            armor.x = -30;
            armor.y = -20;
@@ -262,7 +261,7 @@ var level01 = function (window) {
            game.addGameItem(health);
  
            //Movement
-           health.velocityX = -1;
+           health.velocityX = -2;
  
            //Health
            health.onPlayerCollision = function() {
