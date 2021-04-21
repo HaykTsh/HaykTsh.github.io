@@ -16,12 +16,7 @@ var level01 = function (window) {
            "number": 1,
            "speed": -3,
            "gameItems": [
-               //{ "type": "obstacle", "x": 1000, "y": 0 },
-               //{ "type": "obstacle", "x": 600, "y": 0 },
-               //{ "type": "obstacle", "x": 800, "y": 0 },
-               //{ "type": "enemy", "x": 900, "y":  50},
-               //{ "type": "reward", "x": 500, "y": 50},
-               //{ "type": "health", "x": 700, "y": 50}
+
            ]
        };
 
@@ -29,7 +24,7 @@ var level01 = function (window) {
        var typeRand = 1;
        var obstacleHeight = 1;
 
-        for(var i = 0; i < 5; i++) {
+        for(var i = 0; i < 30; i++) {
 
             xS = 500 + (i * 200);
             typeRand = Math.random() * 3;
