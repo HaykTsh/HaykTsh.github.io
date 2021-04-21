@@ -16,14 +16,51 @@ var level01 = function (window) {
            "number": 1,
            "speed": -3,
            "gameItems": [
-               { "type": "obstacle", "x": 1000, "y": 0 },
-               { "type": "obstacle", "x": 600, "y": 0 },
-               { "type": "obstacle", "x": 800, "y": 0 },
-               { "type": "enemy", "x": 900, "y":  50},
-               { "type": "reward", "x": 500, "y": 50},
-               { "type": "health", "x": 700, "y": 50}
+               //{ "type": "obstacle", "x": 1000, "y": 0 },
+               //{ "type": "obstacle", "x": 600, "y": 0 },
+               //{ "type": "obstacle", "x": 800, "y": 0 },
+               //{ "type": "enemy", "x": 900, "y":  50},
+               //{ "type": "reward", "x": 500, "y": 50},
+               //{ "type": "health", "x": 700, "y": 50}
            ]
        };
+
+       var xS = 1;
+       var typeRand = 1;
+       var obstacleHeight = 1;
+
+        for(var i = 0; i < 5; i++) {
+
+            xS = 500 + (i * 200);
+            typeRand = Math.random() * 3;
+
+            if (typeRand > 2) {
+
+                obstacleHeight = Math.random() * 2;
+
+                if (obstacleHeight > 1) {
+
+                    levelData.gameItems[i] = { "type": "obstacle", "x": xS, "y": 140};
+                }
+                else {
+
+                    levelData.gameItems[i] = { "type": "obstacle", "x": xS, "y": 0};
+                }
+            }
+            else if (typeRand > 1) {
+
+                levelData.gameItems[i] = { "type": "enemy", "x": xS, "y": 50};
+            }
+            else if (typeRand > 0.5) {
+
+                levelData.gameItems[i] = { "type": "reward", "x": xS, "y": 50};
+            }
+            else {
+
+                levelData.gameItems[i] = { "type": "health", "x": xS, "y": 50};
+            }
+            
+        }
  
         var obj;
         var objX;

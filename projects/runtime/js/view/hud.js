@@ -41,7 +41,7 @@
         txtScore = draw.textfield('score : 000', "19px Arial", '#000', 'left');
         hud.addChild(txtScore);
         
-        integrityMeter = draw.rect(1, 16, '#EFFD5F');
+        integrityMeter = draw.rect(1, 16, 'blue');
         integrityMeter.scaleX = 100;
         integrity.addChild(integrityMeter);
         hud.addChild(integrity);
