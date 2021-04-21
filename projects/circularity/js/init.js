@@ -36,7 +36,7 @@ var init = function (window) {
 
         // TODO 3 / 7 : Call the drawCircle() function 
 
-        for (var loopsCompleted = 0; loopsCompleted < 99999999999999999; loopsCompleted++) {
+        for (var loopsCompleted = 0; loopsCompleted < 200; loopsCompleted++) {
             drawCircle();
         }
 
