@@ -204,7 +204,56 @@ var level01 = function (window) {
            }
        }
 
+    /*
+        var bossSprite;
+        //var bossHealth = 3;
+ 
+        function createBoss(x, y) {
+ 
+            // Create Boss and Sprite
+            var boss = game.createGameItem('boss', 40);
 
+            bossSprite = draw.bitmap('img/Cyber.png');
+            bossSprite.scaleX = 1.5;
+            bossSprite.scaleY = 1.5;
+            bossSprite.x = -110;
+            bossSprite.y = -120;
+ 
+            boss.addChild(bossSprite);
+          
+            // Pos
+            boss.x = x;
+            boss.y = groundY - y;
+          
+            game.addGameItem(boss);
+ 
+            // Movement
+            boss.velocityX = -2;
+
+            var bossHealth = 3;
+ 
+            // Player and Projectile Collision
+            boss.onPlayerCollision = function() {
+ 
+               game.changeIntegrity(-50);
+            };
+ 
+            boss.onProjectileCollision = function() {
+ 
+                if(bossHealth > 1) {
+
+                    bossHealth = 0;
+                }
+                else{
+
+                    game.increaseScore(500);
+                    boss.fadeOut();
+                }
+            }
+        }
+
+        createBoss(1000, 50);
+        */
  
        //Score Reward
  
