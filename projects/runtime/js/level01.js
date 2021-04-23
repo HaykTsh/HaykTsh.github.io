@@ -24,9 +24,9 @@ var level01 = function (window) {
        var typeRand = 1;
        var obstacleHeight = 1;
 
-        for(var i = 0; i < 30; i++) {
+        for(var i = 0; i < 35; i++) {
 
-            xS = 500 + (i * 200);
+            xS = 500 + (i * 150);
             typeRand = Math.random() * 3;
 
             if (typeRand > 2) {
@@ -35,7 +35,7 @@ var level01 = function (window) {
 
                 if (obstacleHeight > 1) {
 
-                    levelData.gameItems[i] = { "type": "obstacle", "x": xS, "y": 140};
+                    levelData.gameItems[i] = { "type": "obstacle", "x": xS, "y": 110};
                 }
                 else {
 
@@ -48,11 +48,11 @@ var level01 = function (window) {
             }
             else if (typeRand > 0.5) {
 
-                levelData.gameItems[i] = { "type": "reward", "x": xS, "y": 50};
+                levelData.gameItems[i] = { "type": "reward", "x": xS, "y": 90};
             }
             else {
 
-                levelData.gameItems[i] = { "type": "health", "x": xS, "y": 50};
+                levelData.gameItems[i] = { "type": "health", "x": xS, "y": 90};
             }
             
         }
@@ -102,7 +102,7 @@ var level01 = function (window) {
        function createObstacle(x, y) {
  
            var hitZoneSize = 25;
-           var damageFromObstacle = 10;
+           var damageFromObstacle = 20;
            var obstacleHitZone= game.createObstacle(hitZoneSize, damageFromObstacle);
  
            obstacleHitZone.x = x;
@@ -226,7 +226,7 @@ var level01 = function (window) {
            // Player and Projectile Collision
            enemy.onPlayerCollision = function() {
  
-               game.changeIntegrity(-10);
+               game.changeIntegrity(-30);
            };
  
            enemy.onProjectileCollision = function() {
@@ -295,7 +295,7 @@ var level01 = function (window) {
            var reward = game.createGameItem('reward', 10);
            var box = draw.bitmap('img/Reward.png');
            box.x = -20;
-           box.y = -15;
+           box.y = 20;
            box.scaleX = .8;
            box.scaleY = .8;
  
@@ -313,7 +313,7 @@ var level01 = function (window) {
            //Score
            reward.onPlayerCollision = function() {
  
-               game.increaseScore(100);
+               game.increaseScore(500);
                reward.fadeOut();
            };
        }
@@ -329,7 +329,7 @@ var level01 = function (window) {
            var health = game.createGameItem('health', 10);
            var armor = draw.bitmap('img/Health.png');
            armor.x = -30;
-           armor.y = -20;
+           armor.y = 20;
            armor.scaleX = 1.3;
            armor.scaleY = 1.3;
  
@@ -347,7 +347,7 @@ var level01 = function (window) {
            //Health
            health.onPlayerCollision = function() {
  
-               game.changeIntegrity(25);
+               game.changeIntegrity(10);
                health.fadeOut();
            };
        }
