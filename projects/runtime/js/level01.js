@@ -242,7 +242,7 @@ var level01 = function (window) {
            enemy.onProjectileCollision = function() {
  
                game.increaseScore(100);
-               enemy.fadeOut();
+               enemy.shrink();
            }
        }
 
@@ -364,6 +364,9 @@ var level01 = function (window) {
            };
        }
 
+        var audio = new Audio('img/music.mp3');
+        audio.play();
+        document.getElementById('myAudio').loop = true;
 
  
        // DO NOT EDIT CODE BELOW HERE
