@@ -24,37 +24,45 @@ var level01 = function (window) {
        var typeRand = 1;
        var obstacleHeight = 1;
 
-        for(var i = 0; i < 35; i++) {
+        for(var i = 0; i <= 30; i++) {
 
-            xS = 500 + (i * 150);
-            typeRand = Math.random() * 3;
+            if(i < 30) {
+                xS = 500 + (i * 150);
+                typeRand = Math.random() * 3;
 
-            if (typeRand > 2) {
+                if (typeRand > 2) {
 
-                obstacleHeight = Math.random() * 2;
+                    obstacleHeight = Math.random() * 2;
 
-                if (obstacleHeight > 1) {
+                    if (obstacleHeight > 1) {
 
-                    levelData.gameItems[i] = { "type": "obstacle", "x": xS, "y": 110};
+                        levelData.gameItems[i] = { "type": "obstacle", "x": xS, "y": 110};
+                    }
+                    else {
+
+                        levelData.gameItems[i] = { "type": "obstacle", "x": xS, "y": 0};
+                    }
+                }
+                else if (typeRand > 1) {
+
+                    levelData.gameItems[i] = { "type": "enemy", "x": xS, "y": 50};
+                }
+                else if (typeRand > 0.5) {
+
+                    levelData.gameItems[i] = { "type": "reward", "x": xS, "y": 90};
                 }
                 else {
 
-                    levelData.gameItems[i] = { "type": "obstacle", "x": xS, "y": 0};
+                    levelData.gameItems[i] = { "type": "health", "x": xS, "y": 90};
                 }
             }
-            else if (typeRand > 1) {
-
-                levelData.gameItems[i] = { "type": "enemy", "x": xS, "y": 50};
-            }
-            else if (typeRand > 0.5) {
-
-                levelData.gameItems[i] = { "type": "reward", "x": xS, "y": 90};
-            }
+            
             else {
 
-                levelData.gameItems[i] = { "type": "health", "x": xS, "y": 90};
+                createBoss(xS + 200, 50, 90);
+                createBoss(xS + 400, 50, 90);
+                createBoss(xS + 600, 50, 90);
             }
-            
         }
  
         var obj;
@@ -62,6 +70,7 @@ var level01 = function (window) {
         var objY;
         var objType;
 
+        
        for (var i = 0; i < levelData.gameItems.length; i++) {
  
             obj = levelData.gameItems[i];
@@ -86,10 +95,11 @@ var level01 = function (window) {
                 createHealth(objX, objY);
             }
        }
+       
  
        window.levelData = levelData;
        // set this to true or false depending on if you want to see hitzones
-       game.setDebugMode(true);
+       game.setDebugMode(false);
  
        // TODO 6 and on go here
        // BEGIN EDITING YOUR CODE HERE
@@ -236,14 +246,15 @@ var level01 = function (window) {
            }
        }
 
-    /*
+    
         var bossSprite;
         //var bossHealth = 3;
  
-        function createBoss(x, y) {
+        function createBoss(x, y, bossHealth) {
  
             // Create Boss and Sprite
             var boss = game.createGameItem('boss', 40);
+            var hits = 0;
 
             bossSprite = draw.bitmap('img/Cyber.png');
             bossSprite.scaleX = 1.5;
@@ -262,30 +273,31 @@ var level01 = function (window) {
             // Movement
             boss.velocityX = -2;
 
-            var bossHealth = 3;
+            
  
             // Player and Projectile Collision
             boss.onPlayerCollision = function() {
- 
+               boss.shrink(); 
                game.changeIntegrity(-50);
             };
  
             boss.onProjectileCollision = function() {
  
-                if(bossHealth > 1) {
-
-                    bossHealth = 0;
+                if(bossHealth === 0) {
+                    game.increaseScore(1000);
+                    boss.shrink();
                 }
                 else{
-
+                    hits = hits + 1;
                     game.increaseScore(500);
-                    boss.fadeOut();
+                    boss.flyTo(boss.x - 10, groundY - 50);
+                    createBoss(boss.x, 50, bossHealth - hits);
                 }
             }
         }
 
-        createBoss(1000, 50);
-        */
+
+        
  
        //Score Reward
  
