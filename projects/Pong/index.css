@@ -1,0 +1,30 @@
+
+body {
+    background-color: darkgreen;
+  }
+  
+  #board {
+    width: 1200px;
+    height: 600px;
+    border: 1px solid white;
+    background-color: black;
+    position: relative;
+  }
+  
+  .paddle {
+    background-color: rgb(255, 255, 255);
+    width: 30px;
+    height: 200px;
+    position: absolute;
+    top: 300px;  */  /* Uncomment if you want to set a "starting" position */
+  }
+
+  #paddleR {
+
+    left: 1160px;
+  }
+
+  #paddleL {
+
+    left: 10px;
+  }
