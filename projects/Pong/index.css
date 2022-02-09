@@ -1,6 +1,6 @@
 
 body {
-    background-color: darkgreen;
+    background-color: rgb(0, 0, 0);
   }
   
   #board {
@@ -9,6 +9,8 @@ body {
     border: 1px solid white;
     background-color: black;
     position: relative;
+    margin: auto;
+    top: 200px;
   }
   
   .paddle {
@@ -16,7 +18,7 @@ body {
     width: 30px;
     height: 200px;
     position: absolute;
-    top: 300px;    /* Uncomment if you want to set a "starting" position */
+    top: 200px;    /* Uncomment if you want to set a "starting" position */
   }
 
   #paddleR {
@@ -27,4 +29,25 @@ body {
   #paddleL {
 
     left: 10px;
+  }
+
+  #title {
+
+    font-size: 80px;
+    font-family: sans-serif;
+    color: rgb(94, 94, 94);
+    left: 70px;
+    top: 0px;
+    position: absolute;
+  }
+
+  p {
+
+    color: white;
+    font-family: sans-serif;
+    font-size: 20px;
+    padding: 0px;
+    top: 160px;
+    position: absolute;
+    left: 400px
   }
