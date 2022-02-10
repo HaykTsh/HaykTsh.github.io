@@ -13,6 +13,20 @@ function runProgram(){
   
   // Game Item Objects
 
+  function createItem(cx, cy, csX, csY, cid) {
+
+    var inst = {
+
+      x: cx,
+      y: cy,
+      sX: csX,
+      sY: csY,
+      id: cid,
+    };
+
+    return inst;
+  }
+  var paddleL = createItem();
 
   // one-time setup
   let interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
