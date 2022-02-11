@@ -10,6 +10,17 @@ function runProgram(){
   // Constant Variables
   const FRAME_RATE = 60;
   const FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
+
+  const BOARD_WIDTH = $("#board").width();
+  const BOARD_HEIGHT = $("#board").height();
+
+  var KEY = {
+
+    upL: 87,
+    downL: 83,
+    upR: 38,
+    downR: 40,
+  };
   
   // Game Item Objects
 
@@ -21,20 +32,28 @@ function runProgram(){
       y: cy,
       sX: csX,
       sY: csY,
+      h: $(cid).height(),
+      w: $(cid).width(),
       id: cid,
     };
 
     return inst;
   }
-  var paddleL = createItem();
+
+  var paddleL = createItem(10, 200, 0, 0, "paddleL");
+  var paddleR = createItem(BOARD_WIDTH - $("#paddleR").width - 10, 200, 0, 0, "paddleR");
+
+  var ball = createItem(BOARD_HEIGHT/2, BOARD_HEIGHT/2, 0, 0, "ball");
 
   // one-time setup
   let interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
-  $(document).on('eventType', handleEvent);                           // change 'eventType' to the type of event you want to handle
+  $(document).on('keydown', hKeyDown);                           // change 'eventType' to the type of event you want to handle
+  $(document).on('keyup', hKeyUp);
 
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
+
 
   /* 
   On each "tick" of the timer, a new frame is dynamically drawn using JavaScript
@@ -42,13 +61,59 @@ function runProgram(){
   */
   function newFrame() {
     
-
+    reposPaddle();
   }
   
   /* 
   Called in response to events.
   */
-  function handleEvent(event) {
+
+  function hKeyDown(event) {
+
+    var keyD = event.which;
+
+    if (keyD === KEY.upL) {
+
+      paddleL.sY = 1;
+      console.log(paddle.sY);
+    }
+    if (keyD === KEY.downL) {
+
+      paddleL.sY = -1;
+    }
+
+    if (keyD === KEY.upR) {
+
+      paddleR.sY = 1;
+    }
+    if (keyD === KEY.downR) {
+
+      paddleR.sY = -1;
+    }
+
+  }
+
+  function hKeyUp(event) {
+
+    var keyU = event.which;
+
+    if (keyU === KEY.upL) {
+
+      paddleL.sY = 0;
+    }
+    if (keyU === KEY.downL) {
+
+      paddleL.sY = 0;
+    }
+
+    if (keyU === KEY.upR) {
+
+      paddleR.sY = 0;
+    }
+    if (keyU === KEY.downR) {
+
+      paddleR.sY = 0;
+    }
 
   }
 
@@ -56,7 +121,16 @@ function runProgram(){
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
-  
+  function reposPaddle() {
+
+    paddleL.y += paddleL.sY;
+    paddleR.y += paddleR.sY;
+
+    $(paddleL.id).css("top", paddleL.y);
+    $(paddleR.id).css("top", paddleR.y);
+  }
+
+
   function endGame() {
     // stop the interval timer
     clearInterval(interval);

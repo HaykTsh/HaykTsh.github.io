@@ -9,13 +9,13 @@ body {
     border: 10px solid white;
     background-color: black;
     position: relative;
-    margin: auto;
+    /*margin: auto;*/
     top: 200px;
+    left: 20%;
   }
   
   .paddle {
     background-color: rgb(255, 255, 255);
-    width: 30px;
     height: 200px;
     position: absolute;
     border-radius: 15px;
@@ -25,11 +25,13 @@ body {
   #paddleR {
 
     left: 1160px;
+    width: 30px;
   }
 
   #paddleL {
 
     left: 10px;
+    width: 30px;
   }
 
   #title {
