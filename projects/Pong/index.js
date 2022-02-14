@@ -21,6 +21,8 @@ function runProgram(){
     upR: 38,
     downR: 40,
   };
+
+  var speed = 10;
   
   // Game Item Objects
 
@@ -28,13 +30,13 @@ function runProgram(){
 
     var inst = {
 
+      id: cid,
       x: cx,
       y: cy,
       sX: csX,
       sY: csY,
-      h: $(cid).height(),
-      w: $(cid).width(),
-      id: cid,
+      h: parseFloat($("#" + cid).css("height")),
+      w: parseFloat($("#" + cid).css("width")),
     };
 
     return inst;
@@ -62,6 +64,7 @@ function runProgram(){
   function newFrame() {
     
     reposPaddle();
+    restrictPaddle();
   }
   
   /* 
@@ -74,23 +77,24 @@ function runProgram(){
 
     if (keyD === KEY.upL) {
 
-      paddleL.sY = 1;
-      console.log(paddle.sY);
+      paddleL.sY = -1 * speed;
     }
     if (keyD === KEY.downL) {
 
-      paddleL.sY = -1;
+      paddleL.sY = speed;
     }
 
     if (keyD === KEY.upR) {
 
-      paddleR.sY = 1;
+      paddleR.sY = -1 * speed;
     }
     if (keyD === KEY.downR) {
 
-      paddleR.sY = -1;
+      paddleR.sY = speed;
     }
 
+    console.log("PaddleL: " + paddleL.sY);
+    console.log("paddleR: " + paddleR.sY);
   }
 
   function hKeyUp(event) {
@@ -115,6 +119,8 @@ function runProgram(){
       paddleR.sY = 0;
     }
 
+    console.log("PaddleL: " + paddleL.sY);
+    console.log("paddleR: " + paddleR.sY);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -126,8 +132,34 @@ function runProgram(){
     paddleL.y += paddleL.sY;
     paddleR.y += paddleR.sY;
 
-    $(paddleL.id).css("top", paddleL.y);
-    $(paddleR.id).css("top", paddleR.y);
+    $("#" + paddleL.id).css("top", paddleL.y);
+    $("#" + paddleR.id).css("top", paddleR.y);
+  }
+
+  function restrictPaddle() {
+
+    if(paddleL.y + paddleL.h > BOARD_HEIGHT) {
+
+      paddleL.y = BOARD_HEIGHT - paddleL.h;
+    }
+    if(paddleL.y < 1) {
+
+      paddleL.y = 1;
+    }
+
+    if(paddleR.y + paddleR.h > BOARD_HEIGHT) {
+
+      paddleR.y = BOARD_HEIGHT - paddleR.h;
+    }
+    if(paddleR.y < 1) {
+
+      paddleR.y = 1;
+    }
+  }
+
+  function startBall() {
+
+    
   }
 
 
