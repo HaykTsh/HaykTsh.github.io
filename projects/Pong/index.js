@@ -45,12 +45,13 @@ function runProgram(){
   var paddleL = createItem(10, 200, 0, 0, "paddleL");
   var paddleR = createItem(BOARD_WIDTH - $("#paddleR").width - 10, 200, 0, 0, "paddleR");
 
-  var ball = createItem(BOARD_HEIGHT/2, BOARD_HEIGHT/2, 0, 0, "ball");
+  var ball = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball");
 
   // one-time setup
   let interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
   $(document).on('keydown', hKeyDown);                           // change 'eventType' to the type of event you want to handle
   $(document).on('keyup', hKeyUp);
+  startBall();
 
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
@@ -65,6 +66,9 @@ function runProgram(){
     
     reposPaddle();
     restrictPaddle();
+
+    reposBall();
+    restrictBall();
   }
   
   /* 
@@ -157,9 +161,34 @@ function runProgram(){
     }
   }
 
+  function reposBall() {
+
+    ball.x += ball.sX;
+    ball.y += ball.sY;
+
+    $("#" + ball.id).css("top", ball.y);
+    $("#" + ball.id).css("left", ball.x);
+  }
+
+  function restrictBall() {
+
+    if(ball.y + ball.h > BOARD_HEIGHT || ball.y < 1) {
+
+      ball.sY *= -1;
+    }
+    if(ball.x + ball.h > BOARD_WIDTH || ball.x < 1) {
+
+      ball.sX *= -1;
+    }
+  }
+
   function startBall() {
 
-    
+    var ranNumX = (Math.random() * 5 + 2) * (Math.random() > 0.5 ? -1 : 1);
+    var ranNumY = (Math.random() * 5 + 2) * (Math.random() > 0.5 ? -1 : 1);
+
+    ball.sX = ranNumX;
+    ball.sY = ranNumY;
   }
 
 
