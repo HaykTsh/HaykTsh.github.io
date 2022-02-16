@@ -26,6 +26,9 @@ function runProgram(){
   
   // Game Item Objects
 
+  var scoreL = {val: 0, id: "#score2"};
+  var scoreR = {val: 0, id: "#score1"};
+
   function createItem(cx, cy, csX, csY, cid) {
 
     var inst = {
@@ -64,6 +67,8 @@ function runProgram(){
   */
   function newFrame() {
     
+    win();
+
     reposPaddle();
     restrictPaddle();
 
@@ -176,9 +181,17 @@ function runProgram(){
 
       ball.sY *= -1;
     }
-    if(ball.x + ball.h > BOARD_WIDTH || ball.x < 1) {
 
-      ball.sX *= -1;
+    if(ball.x + ball.h > BOARD_WIDTH ){
+
+      score(scoreR);
+      startBall();
+    }
+
+    if(ball.x < 1){
+
+      score(scoreL);
+      startBall();
     }
   }
 
@@ -189,6 +202,43 @@ function runProgram(){
 
     ball.sX = ranNumX;
     ball.sY = ranNumY;
+
+    ball.x = BOARD_WIDTH/2;
+    ball.y = BOARD_HEIGHT/2;
+  }
+
+  function score(player) {
+    
+    player.val += 1;
+    $(player.id).text(player.val);
+  }
+
+  function win() {
+
+    if(scoreR.val > 1 || scoreL.val > 1) {
+
+      /*
+    ball.sX = 0;
+    ball.sY = 0;
+
+    ball.x = BOARD_WIDTH/2;
+    ball.y = BOARD_HEIGHT/2;
+
+    paddleL.sY = 0;
+    paddleR.sY = 0;
+      */
+
+      if(scoreR.val > 1) {
+
+        $("#title").text("Player 1 wins!!!");
+      }
+      if(scoreL.val > 1) {
+
+        $("#title").text("Player 2 wins!!!");
+      }
+    
+    endGame();
+    }
   }
 
 
