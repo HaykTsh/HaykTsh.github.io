@@ -14,6 +14,8 @@ function runProgram(){
   const BOARD_WIDTH = $("#board").width();
   const BOARD_HEIGHT = $("#board").height();
 
+  const WIN_CONDITION = 100;
+
   var KEY = {
 
     upL: 87,
@@ -26,8 +28,8 @@ function runProgram(){
   
   // Game Item Objects
 
-  var scoreL = {val: 0, id: "#score2"};
-  var scoreR = {val: 0, id: "#score1"};
+  var scoreL = {val: 0, id: "#score2", name: "Player 2"};
+  var scoreR = {val: 0, id: "#score1", name: "Player 1"};
 
   function createItem(cx, cy, csX, csY, cid) {
 
@@ -74,6 +76,9 @@ function runProgram(){
 
     reposBall();
     restrictBall();
+
+    doCollide(paddleR, ball);
+    doCollide(paddleL, ball);
   }
   
   /* 
@@ -102,8 +107,8 @@ function runProgram(){
       paddleR.sY = speed;
     }
 
-    console.log("PaddleL: " + paddleL.sY);
-    console.log("paddleR: " + paddleR.sY);
+    //console.log("PaddleL: " + paddleL.sY);
+    //console.log("PaddleR: " + paddleR.sY);
   }
 
   function hKeyUp(event) {
@@ -128,8 +133,8 @@ function runProgram(){
       paddleR.sY = 0;
     }
 
-    console.log("PaddleL: " + paddleL.sY);
-    console.log("paddleR: " + paddleR.sY);
+    //console.log("PaddleL: " + paddleL.sY);
+    //console.log("PaddleR: " + paddleR.sY);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -210,12 +215,41 @@ function runProgram(){
   function score(player) {
     
     player.val += 1;
-    $(player.id).text(player.val);
+    $(player.id).text(player.name + ": " + player.val);
+  }
+
+  function doCollide(paddleF, ballF) {
+
+    var bLeft = ballF.x;
+    var bRight = ballF.x + ballF.w;
+
+    var bTop = ballF.y;
+    var bBottom = ballF.y + ballF.h;
+
+    var pLeft = paddleF.x;
+    var pRight = paddleF.x + paddleF.w;
+
+    var pTop = paddleF.y;
+    var pBottom = paddleF.y + paddleF.h;
+
+
+
+    if((bLeft < pRight && bLeft > pLeft) || (bRight < pRight && bRight > pLeft)) {
+
+      ballF.sX *= -1;
+      console.log("collide");
+      //return true;
+    }
+    else {
+
+      //console.log("bruh");
+      //return false;
+    }
   }
 
   function win() {
 
-    if(scoreR.val > 1 || scoreL.val > 1) {
+    if(scoreR.val > WIN_CONDITION || scoreL.val > WIN_CONDITION) {
 
       /*
     ball.sX = 0;
@@ -228,11 +262,11 @@ function runProgram(){
     paddleR.sY = 0;
       */
 
-      if(scoreR.val > 1) {
+      if(scoreR.val >= WIN_CONDITION) {
 
         $("#title").text("Player 1 wins!!!");
       }
-      if(scoreL.val > 1) {
+      if(scoreL.val >= WIN_CONDITION) {
 
         $("#title").text("Player 2 wins!!!");
       }
