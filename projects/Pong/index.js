@@ -48,7 +48,7 @@ function runProgram(){
   }
 
   var paddleL = createItem(10, 200, 0, 0, "paddleL");
-  var paddleR = createItem(BOARD_WIDTH - $("#paddleR").width - 10, 200, 0, 0, "paddleR");
+  var paddleR = createItem(BOARD_WIDTH - parseFloat($("#paddleR").css("width")) - 10, 200, 0, 0, "paddleR");
 
   var ball = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball");
 
@@ -73,6 +73,9 @@ function runProgram(){
 
     reposPaddle();
     restrictPaddle();
+
+    moveScore(scoreL, paddleR);
+    moveScore(scoreR, paddleL);
 
     reposBall();
     restrictBall();
@@ -215,7 +218,7 @@ function runProgram(){
   function score(player) {
     
     player.val += 1;
-    $(player.id).text(player.name + ": " + player.val);
+    $(player.id).text(player.val);
   }
 
   function doCollide(paddleF, ballF) {
@@ -234,17 +237,16 @@ function runProgram(){
 
 
 
-    if((bLeft < pRight && bLeft > pLeft) || (bRight < pRight && bRight > pLeft)) {
+    if( ((bLeft < pRight && bLeft > pLeft) || (bRight < pRight && bRight > pLeft)) && ((bTop < pBottom) && (bBottom > pTop))) {
 
       ballF.sX *= -1;
-      console.log("collide");
-      //return true;
+      console.log("collide " + paddleF.id);
     }
-    else {
+  }
 
-      //console.log("bruh");
-      //return false;
-    }
+  function moveScore(score, paddle) {
+
+    $(score.id).css("top", paddle.y - 10);
   }
 
   function win() {
