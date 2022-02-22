@@ -14,7 +14,7 @@ function runProgram(){
   const BOARD_WIDTH = $("#board").width();
   const BOARD_HEIGHT = $("#board").height();
 
-  const WIN_CONDITION = 100;
+  const WIN_CONDITION = 9;
 
   var KEY = {
 
@@ -25,6 +25,8 @@ function runProgram(){
   };
 
   var speed = 10;
+
+  var speedCoef = 4;
   
   // Game Item Objects
 
@@ -50,13 +52,16 @@ function runProgram(){
   var paddleL = createItem(10, 200, 0, 0, "paddleL");
   var paddleR = createItem(BOARD_WIDTH - parseFloat($("#paddleR").css("width")) - 10, 200, 0, 0, "paddleR");
 
-  var ball = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball");
+  var ball = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball1");
+  var ball2 = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball2");
 
   // one-time setup
   let interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
   $(document).on('keydown', hKeyDown);                           // change 'eventType' to the type of event you want to handle
   $(document).on('keyup', hKeyUp);
-  startBall();
+  
+  startBall(ball);
+  startBall(ball2);
 
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
@@ -78,10 +83,15 @@ function runProgram(){
     moveScore(scoreR, paddleL);
 
     reposBall();
-    restrictBall();
+
+    restrictBall(ball);
+    restrictBall(ball2);
 
     doCollide(paddleR, ball);
     doCollide(paddleL, ball);
+
+    doCollide(paddleR, ball2);
+    doCollide(paddleL, ball2);
   }
   
   /* 
@@ -181,38 +191,44 @@ function runProgram(){
 
     $("#" + ball.id).css("top", ball.y);
     $("#" + ball.id).css("left", ball.x);
+
+    ball2.x += ball2.sX;
+    ball2.y += ball2.sY;
+
+    $("#" + ball2.id).css("top", ball2.y);
+    $("#" + ball2.id).css("left", ball2.x);
   }
 
-  function restrictBall() {
+  function restrictBall(ballF) {
 
-    if(ball.y + ball.h > BOARD_HEIGHT || ball.y < 1) {
+    if(ballF.y + ballF.h > BOARD_HEIGHT || ballF.y < 0) {
 
-      ball.sY *= -1;
+      ballF.sY *= -1;
     }
 
-    if(ball.x + ball.h > BOARD_WIDTH ){
+    if(ballF.x + ballF.h > BOARD_WIDTH ){
 
       score(scoreR);
-      startBall();
+      startBall(ballF);
     }
 
-    if(ball.x < 1){
+    if(ballF.x < 0){
 
       score(scoreL);
-      startBall();
+      startBall(ballF);
     }
   }
 
-  function startBall() {
+  function startBall(ballF) {
 
     var ranNumX = (Math.random() * 5 + 2) * (Math.random() > 0.5 ? -1 : 1);
     var ranNumY = (Math.random() * 5 + 2) * (Math.random() > 0.5 ? -1 : 1);
 
-    ball.sX = ranNumX;
-    ball.sY = ranNumY;
+    ballF.sX = ranNumX;
+    ballF.sY = ranNumY;
 
-    ball.x = BOARD_WIDTH/2;
-    ball.y = BOARD_HEIGHT/2;
+    ballF.x = BOARD_WIDTH/2;
+    ballF.y = BOARD_HEIGHT/2;
   }
 
   function score(player) {
@@ -240,6 +256,16 @@ function runProgram(){
     if( ((bLeft < pRight && bLeft > pLeft) || (bRight < pRight && bRight > pLeft)) && ((bTop < pBottom) && (bBottom > pTop))) {
 
       ballF.sX *= -1;
+
+      if(ballF.sX > 0) {
+
+        ballF.sX += speedCoef;
+      }
+      else{
+
+        ballF.sX -= speedCoef;
+      }
+
       console.log("collide " + paddleF.id);
     }
   }
@@ -251,7 +277,7 @@ function runProgram(){
 
   function win() {
 
-    if(scoreR.val > WIN_CONDITION || scoreL.val > WIN_CONDITION) {
+    if(scoreR.val >= WIN_CONDITION || scoreL.val >= WIN_CONDITION) {
 
       /*
     ball.sX = 0;
