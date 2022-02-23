@@ -39,6 +39,7 @@ body {
     font-size: 80px;
     font-family: sans-serif;
     color: rgb(120, 120, 120);
+    margin: auto;
     left: 370px;
     top: 60px;
     position: absolute;
@@ -71,7 +72,7 @@ body {
     width: 30px;
     top: 270px;
     left:570px;
-    position: relative;
+    position: absolute;
     border-radius: 50%;
   }
 
@@ -83,4 +84,9 @@ body {
   #ball2 {
 
     background-color: rgb(180, 180, 180);
+  }
+
+  #ball3 {
+
+    background-color: rgb(150, 150, 150);
   }

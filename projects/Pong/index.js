@@ -24,9 +24,9 @@ function runProgram(){
     downR: 40,
   };
 
-  var speed = 10;
+  var speed = 15;
 
-  var speedCoef = 4;
+  var speedCoef = 2;
   
   // Game Item Objects
 
@@ -49,11 +49,24 @@ function runProgram(){
     return inst;
   }
 
+  function rgbIfy(obj, r, g, b) {
+
+    obj.r = r;
+    obj.g = g;
+    obj.b = b;
+    obj.og = r;
+  }
+
   var paddleL = createItem(10, 200, 0, 0, "paddleL");
   var paddleR = createItem(BOARD_WIDTH - parseFloat($("#paddleR").css("width")) - 10, 200, 0, 0, "paddleR");
 
   var ball = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball1");
   var ball2 = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball2");
+  var ball3 = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball3");
+
+  rgbIfy(ball, 255, 255, 255);
+  rgbIfy(ball2, 180, 180, 180);
+  rgbIfy(ball3, 150, 150, 150);
 
   // one-time setup
   let interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
@@ -62,6 +75,7 @@ function runProgram(){
   
   startBall(ball);
   startBall(ball2);
+  startBall(ball3);
 
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
@@ -86,12 +100,16 @@ function runProgram(){
 
     restrictBall(ball);
     restrictBall(ball2);
+    restrictBall(ball3);
 
     doCollide(paddleR, ball);
     doCollide(paddleL, ball);
 
     doCollide(paddleR, ball2);
     doCollide(paddleL, ball2);
+
+    doCollide(paddleR, ball3);
+    doCollide(paddleL, ball3);
   }
   
   /* 
@@ -197,6 +215,12 @@ function runProgram(){
 
     $("#" + ball2.id).css("top", ball2.y);
     $("#" + ball2.id).css("left", ball2.x);
+
+    ball3.x += ball3.sX;
+    ball3.y += ball3.sY;
+
+    $("#" + ball3.id).css("top", ball3.y);
+    $("#" + ball3.id).css("left", ball3.x);
   }
 
   function restrictBall(ballF) {
@@ -229,6 +253,10 @@ function runProgram(){
 
     ballF.x = BOARD_WIDTH/2;
     ballF.y = BOARD_HEIGHT/2;
+
+    ballF.r = ballF.og;
+    ballF.g = ballF.og;
+    ballF.b = ballF.og;
   }
 
   function score(player) {
@@ -266,6 +294,17 @@ function runProgram(){
         ballF.sX -= speedCoef;
       }
 
+      if(ballF.sY > 0) {
+
+        ballF.sY += (speedCoef/2);
+      }
+      else{
+
+        ballF.sY -= (speedCoef/2);
+      }
+
+      reddify(ballF);
+
       console.log("collide " + paddleF.id);
     }
   }
@@ -301,6 +340,23 @@ function runProgram(){
     
     endGame();
     }
+  }
+
+  function reddify(ballF) {
+
+    if (ballF.r >= 255) { ballF.r = ballF.r; }
+    else if (ballF.r <= 0) { ballF.r = 0; }
+    else { ballF.r += 20; }
+
+    if (ballF.g > 255) { ballF.g = ballF.g; }
+    else if (ballF.g <= 0) { ballF.g = 0; }
+    else { ballF.g -= 20; }
+
+    if (ballF.b > 255) { ballF.b = ballF.b; }
+    else if (ballF.b <= 0) { ballF.b = 0; }
+    else { ballF.b -= 20; }
+
+    $("#" + ballF.id).css("background-color", "rgb(" + ballF.r + ", " + ballF.g + ", " + ballF.b + ")");
   }
 
 
