@@ -26,7 +26,7 @@ function runProgram(){
 
   var speed = 15;
 
-  var speedCoef = 2;
+  //var speedCoef = 4;
   
   // Game Item Objects
 
@@ -54,19 +54,25 @@ function runProgram(){
     obj.r = r;
     obj.g = g;
     obj.b = b;
-    obj.og = r;
+    obj.og = [r, g, b];
   }
 
   var paddleL = createItem(10, 200, 0, 0, "paddleL");
   var paddleR = createItem(BOARD_WIDTH - parseFloat($("#paddleR").css("width")) - 10, 200, 0, 0, "paddleR");
 
   var ball = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball1");
+      ball.p = 1;
+      ball.speedCoef = 4;
   var ball2 = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball2");
+      ball2.p = 1;
+      ball2.speedCoef = 4;
   var ball3 = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball3");
+      ball3.p = -1;
+      ball3.speedCoef = 0;
 
   rgbIfy(ball, 255, 255, 255);
-  rgbIfy(ball2, 180, 180, 180);
-  rgbIfy(ball3, 150, 150, 150);
+  rgbIfy(ball2, 150, 150, 150);
+  rgbIfy(ball3, 164, 250, 178);
 
   // one-time setup
   let interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
@@ -232,13 +238,13 @@ function runProgram(){
 
     if(ballF.x + ballF.h > BOARD_WIDTH ){
 
-      score(scoreR);
+      score(scoreR, ballF);
       startBall(ballF);
     }
 
     if(ballF.x < 0){
 
-      score(scoreL);
+      score(scoreL, ballF);
       startBall(ballF);
     }
   }
@@ -254,14 +260,16 @@ function runProgram(){
     ballF.x = BOARD_WIDTH/2;
     ballF.y = BOARD_HEIGHT/2;
 
-    ballF.r = ballF.og;
-    ballF.g = ballF.og;
-    ballF.b = ballF.og;
+    ballF.r = ballF.og[0];
+    ballF.g = ballF.og[1];
+    ballF.b = ballF.og[2];
+
+    $("#" + ballF.id).css("background-color", "rgb(" + ballF.r + ", " + ballF.g + ", " + ballF.b + ")");
   }
 
-  function score(player) {
+  function score(player, ballF) {
     
-    player.val += 1;
+    player.val += ballF.p;
     $(player.id).text(player.val);
   }
 
@@ -287,20 +295,20 @@ function runProgram(){
 
       if(ballF.sX > 0) {
 
-        ballF.sX += speedCoef;
+        ballF.sX += ballF.speedCoef;
       }
       else{
 
-        ballF.sX -= speedCoef;
+        ballF.sX -= ballF.speedCoef;
       }
 
       if(ballF.sY > 0) {
 
-        ballF.sY += (speedCoef/2);
+        ballF.sY += (ballF.speedCoef/2);
       }
       else{
 
-        ballF.sY -= (speedCoef/2);
+        ballF.sY -= (ballF.speedCoef/2);
       }
 
       reddify(ballF);
