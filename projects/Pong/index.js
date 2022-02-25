@@ -63,12 +63,15 @@ function runProgram(){
   var ball = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball1");
       ball.p = 1;
       ball.speedCoef = 4;
+      ball.colorCoef = 1;
   var ball2 = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball2");
       ball2.p = 1;
       ball2.speedCoef = 4;
+      ball2.colorCoef = 1;
   var ball3 = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball3");
       ball3.p = -1;
       ball3.speedCoef = 0;
+      ball3.colorCoef = 0;
 
   rgbIfy(ball, 255, 255, 255);
   rgbIfy(ball2, 150, 150, 150);
@@ -356,15 +359,15 @@ function runProgram(){
 
     if (ballF.r >= 255) { ballF.r = ballF.r; }
     else if (ballF.r <= 0) { ballF.r = 0; }
-    else { ballF.r += 20; }
+    else { ballF.r += (20 * ballF.colorCoef); }
 
     if (ballF.g > 255) { ballF.g = ballF.g; }
     else if (ballF.g <= 0) { ballF.g = 0; }
-    else { ballF.g -= 20; }
+    else { ballF.g -= (20 * ballF.colorCoef); }
 
     if (ballF.b > 255) { ballF.b = ballF.b; }
     else if (ballF.b <= 0) { ballF.b = 0; }
-    else { ballF.b -= 20; }
+    else { ballF.b -= (20 * ballF.colorCoef); }
 
     $("#" + ballF.id).css("background-color", "rgb(" + ballF.r + ", " + ballF.g + ", " + ballF.b + ")");
   }
