@@ -270,6 +270,8 @@ function runProgram(){
   function score(player, ballF) {
     
     player.val += ballF.p;
+    
+    player
     $(player.id).text(player.val);
   }
 
