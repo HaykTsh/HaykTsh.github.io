@@ -25,8 +25,6 @@ function runProgram(){
   };
 
   var speed = 15;
-
-  //var speedCoef = 4;
   
   // Game Item Objects
 
@@ -273,8 +271,10 @@ function runProgram(){
   function score(player, ballF) {
     
     player.val += ballF.p;
+
+    if (scoreL.val < 0) {scoreL.val = 0;}
+    if (scoreR.val < 0) {scoreR.val = 0;}
     
-    player
     $(player.id).text(player.val);
   }
 
