@@ -16,6 +16,7 @@ function runProgram(){
 
   const WIN_CONDITION = 9;
 
+  //Key input variables
   var KEY = {
 
     upL: 87,
@@ -24,13 +25,16 @@ function runProgram(){
     downR: 40,
   };
 
+  //Paddle Speed
   var speed = 15;
   
   // Game Item Objects
 
+  //Score objects
   var scoreL = {val: 0, id: "#score2", name: "Player 2"};
   var scoreR = {val: 0, id: "#score1", name: "Player 1"};
 
+  //Helper fucntion for all game items
   function createItem(cx, cy, csX, csY, cid) {
 
     var inst = {
@@ -47,6 +51,7 @@ function runProgram(){
     return inst;
   }
 
+  //Gives rgb values to the balls
   function rgbIfy(obj, r, g, b) {
 
     obj.r = r;
@@ -55,25 +60,29 @@ function runProgram(){
     obj.og = [r, g, b];
   }
 
+  //Extra stats to make special variants of balls
+  function ballStats(obj, cp, ccoef) {
+
+    obj.p = cp;
+    obj.speedCoef = ccoef * 4;
+    obj.colorCoef = ccoef;
+  }
+
   var paddleL = createItem(10, 200, 0, 0, "paddleL");
   var paddleR = createItem(BOARD_WIDTH - parseFloat($("#paddleR").css("width")) - 10, 200, 0, 0, "paddleR");
 
   var ball = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball1");
-      ball.p = 1;
-      ball.speedCoef = 4;
-      ball.colorCoef = 1;
   var ball2 = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball2");
-      ball2.p = 1;
-      ball2.speedCoef = 4;
-      ball2.colorCoef = 1;
   var ball3 = createItem(BOARD_WIDTH/2, BOARD_HEIGHT/2, 0, 0, "ball3");
-      ball3.p = -1;
-      ball3.speedCoef = 0;
-      ball3.colorCoef = 0;
 
+  //Helper function calls for balls 
   rgbIfy(ball, 255, 255, 255);
   rgbIfy(ball2, 150, 150, 150);
   rgbIfy(ball3, 164, 250, 178);
+
+  ballStats(ball, 1, 1);
+  ballStats(ball2, 1, 1);
+  ballStats(ball3, -1, 0);
 
   // one-time setup
   let interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
@@ -123,6 +132,7 @@ function runProgram(){
   Called in response to events.
   */
 
+  //Helper fucntion for key down events
   function hKeyDown(event) {
 
     var keyD = event.which;
@@ -149,6 +159,7 @@ function runProgram(){
     //console.log("PaddleR: " + paddleR.sY);
   }
 
+  //Helper fucntion for key up events
   function hKeyUp(event) {
 
     var keyU = event.which;
@@ -179,6 +190,7 @@ function runProgram(){
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
+  //Repositions the paddle, adds speed to position value
   function reposPaddle() {
 
     paddleL.y += paddleL.sY;
@@ -188,6 +200,7 @@ function runProgram(){
     $("#" + paddleR.id).css("top", paddleR.y);
   }
 
+  //prevents the paddle from going beyond the border of the board
   function restrictPaddle() {
 
     if(paddleL.y + paddleL.h > BOARD_HEIGHT) {
@@ -209,6 +222,7 @@ function runProgram(){
     }
   }
 
+  //Repositions the balls, adds speed to position value
   function reposBall() {
 
     ball.x += ball.sX;
@@ -230,13 +244,16 @@ function runProgram(){
     $("#" + ball3.id).css("left", ball3.x);
   }
 
+  //prevents the balls from going beyond the border of the board
   function restrictBall(ballF) {
 
     if(ballF.y + ballF.h > BOARD_HEIGHT || ballF.y < 0) {
 
+      //Makes the ball's y speed change polarity when hitting the ottom or top of the board
       ballF.sY *= -1;
     }
 
+      //Scores for one side after detecting the ball touch the east or west side of the board; restarts the ball afterwards
     if(ballF.x + ballF.h > BOARD_WIDTH ){
 
       score(scoreR, ballF);
@@ -250,6 +267,7 @@ function runProgram(){
     }
   }
 
+  //Gives the ball a random speed x and y
   function startBall(ballF) {
 
     var ranNumX = (Math.random() * 5 + 2) * (Math.random() > 0.5 ? -1 : 1);
@@ -258,9 +276,11 @@ function runProgram(){
     ballF.sX = ranNumX;
     ballF.sY = ranNumY;
 
+    //Positions ball in the center
     ballF.x = BOARD_WIDTH/2;
     ballF.y = BOARD_HEIGHT/2;
 
+    //Resets the color of the ball
     ballF.r = ballF.og[0];
     ballF.g = ballF.og[1];
     ballF.b = ballF.og[2];
@@ -268,18 +288,22 @@ function runProgram(){
     $("#" + ballF.id).css("background-color", "rgb(" + ballF.r + ", " + ballF.g + ", " + ballF.b + ")");
   }
 
+  //Increases the score on the display
   function score(player, ballF) {
     
     player.val += ballF.p;
 
+    //Prevents the scores from going below zero
     if (scoreL.val < 0) {scoreL.val = 0;}
     if (scoreR.val < 0) {scoreR.val = 0;}
     
     $(player.id).text(player.val);
   }
 
+  //Registers ball collisions with the paddles
   function doCollide(paddleF, ballF) {
 
+    //Sets variables for the sides of the balls and paddles
     var bLeft = ballF.x;
     var bRight = ballF.x + ballF.w;
 
