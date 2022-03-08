@@ -249,7 +249,7 @@ function runProgram(){
 
     if(ballF.y + ballF.h > BOARD_HEIGHT || ballF.y < 0) {
 
-      //Makes the ball's y speed change polarity when hitting the ottom or top of the board
+      //Makes the ball's y speed change polarity when hitting the bottom or top of the board
       ballF.sY *= -1;
     }
 
@@ -320,8 +320,10 @@ function runProgram(){
 
     if( ((bLeft < pRight && bLeft > pLeft) || (bRight < pRight && bRight > pLeft)) && ((bTop < pBottom) && (bBottom > pTop))) {
 
+      //Makes the ball's x speed change polarity when hitting a paddle
       ballF.sX *= -1;
 
+      //Increases the ball's speed upon collision
       if(ballF.sX > 0) {
 
         ballF.sX += ballF.speedCoef;
@@ -340,17 +342,20 @@ function runProgram(){
         ballF.sY -= (ballF.speedCoef/2);
       }
 
+      //Chnages the color of the ball upon collision
       reddify(ballF);
 
       console.log("collide " + paddleF.id);
     }
   }
 
+  //Consistently moves the score to follow the position of the paddle
   function moveScore(score, paddle) {
 
     $(score.id).css("top", paddle.y - 10);
   }
 
+  //Detects if a score is larger or equal to the win condition, if so, displays text and ends the game
   function win() {
 
     if(scoreR.val >= WIN_CONDITION || scoreL.val >= WIN_CONDITION) {
@@ -379,16 +384,20 @@ function runProgram(){
     }
   }
 
+  //Chnages ball color
   function reddify(ballF) {
 
+    //Increases red value
     if (ballF.r >= 255) { ballF.r = ballF.r; }
     else if (ballF.r <= 0) { ballF.r = 0; }
     else { ballF.r += (20 * ballF.colorCoef); }
 
+    //Decreases green value
     if (ballF.g > 255) { ballF.g = ballF.g; }
     else if (ballF.g <= 0) { ballF.g = 0; }
     else { ballF.g -= (20 * ballF.colorCoef); }
 
+    //Decreases blue value
     if (ballF.b > 255) { ballF.b = ballF.b; }
     else if (ballF.b <= 0) { ballF.b = 0; }
     else { ballF.b -= (20 * ballF.colorCoef); }
