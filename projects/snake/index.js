@@ -64,6 +64,7 @@ function runProgram(){
   */
   function newFrame() {
     
+    genSnake();
     
     reposSnake();
   }
@@ -109,6 +110,16 @@ function runProgram(){
     console.log(snake);
   }
 
+  function genSnake () {
+
+    for(var i = 0; i < snake.length; i++) {
+
+      var segment = $('<div id="'+ i +'" class=' + section.class + '>');
+
+      segment.appendTo($('#board'));
+    }
+  }
+
   function reposSnake() {
 
     var head = snake[0];
@@ -126,7 +137,8 @@ function runProgram(){
     for(var i = 0; i < snake.length; i++) {
 
       var section = snake[i];
-      var segment = $('<div id="snake" class=' + section.class + '>').appendTo($('#board'));
+      //var segment = $('<div id="snake" class=' + section.class + '>').appendTo($('#board'));
+      var segment = $(section.id);
 
       segment.css('left', section.posX);
       segment.css('top', section.posY);

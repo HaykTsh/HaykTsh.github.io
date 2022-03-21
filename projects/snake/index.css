@@ -22,19 +22,19 @@ h1 {
 
 .head {
   background-color: royalblue;
-}
-
-.body {
-  background-color: lightskyblue;
-}
-
-#snake {
   width: 40px;
   height: 40px;
   position: absolute;
 }
 
-#apple {
+.body {
+  background-color: lightskyblue;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+}
+
+.apple {
   background-color: red;
   width: 30px;
   height: 30px;
