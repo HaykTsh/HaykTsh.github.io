@@ -14,6 +14,8 @@ function runProgram(){
   const BOARD_WIDTH = $("#board").width();
   const BOARD_HEIGHT = $("#board").height();
 
+  const coefM = 40;
+
   var KEY = {
 
     W: 87,
@@ -52,7 +54,6 @@ function runProgram(){
   var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
   $(document).on('keydown', keyDown);                           
   startSnake();
-  drawSnake();
 
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
@@ -64,8 +65,7 @@ function runProgram(){
   */
   function newFrame() {
     
-    genSnake();
-    
+
     reposSnake();
   }
   
@@ -77,21 +77,21 @@ function runProgram(){
     if(event.which === KEY.W|| event.which === KEY.UP) {
 
       speedX = 0;
-      speedY = -40;
+      speedY = -1 * coefM;
     }
     if(event.which === KEY.S|| event.which === KEY.DOWN) {
 
       speedX = 0;
-      speedY = 40;
+      speedY = coefM;
     }
     if(event.which === KEY.A|| event.which === KEY.LEFT) {
 
-      speedX = -40;
+      speedX = -1 * coefM;
       speedY = 0;
     }
     if(event.which === KEY.D|| event.which === KEY.RIGHT) {
 
-      speedX = 40;
+      speedX = coefM;
       speedY = 0;
     }
   }
@@ -105,43 +105,54 @@ function runProgram(){
     snake = [];
 
     snake.push(crSnake("head", BOARD_WIDTH / 2, BOARD_HEIGHT / 2));
-    //snake.push(crSnake("body", BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + 40));
-
-    console.log(snake);
+    snake.push(crSnake("body", BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 1)));
+    snake.push(crSnake("body", BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 2)));
+    snake.push(crSnake("body", BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 3)));
+    snake.push(crSnake("body", BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 4)));
+    
+    drawSnake();
   }
 
-  function genSnake () {
-
-    for(var i = 0; i < snake.length; i++) {
-
-      var segment = $('<div id="'+ i +'" class=' + section.class + '>');
-
-      segment.appendTo($('#board'));
-    }
-  }
 
   function reposSnake() {
 
-    var head = snake[0];
+    for(var i = snake.length - 1; i >= 0; i--) {
 
-    head.posX += speedX;
-    head.posY += speedY;
+      if(i == 0) {
 
-    snake[0] = head;
+        snake[i].posX += speedX;
+        snake[i].posY += speedY;
+      }
+      else {
 
-    drawSnake();
+        snake[i].posX = snake[(i-1)].posX;
+        snake[i].posY = snake[(i-1)].posY;
+      }
+
+      var snakeIDNum = snake[i].id;
+      var snakeID = "#" + snakeIDNum.toString(16);
+
+      $(snakeID).css('left', snake[i].posX);
+      $(snakeID).css('top', snake[i].posY);
+    }
+
+
+  }
+
+  var object = {
+
+    id: "anything",
+    speed: 5,
   }
 
   function drawSnake() {
 
     for(var i = 0; i < snake.length; i++) {
 
+      snake[i].id = i;
       var section = snake[i];
-      //var segment = $('<div id="snake" class=' + section.class + '>').appendTo($('#board'));
-      var segment = $(section.id);
 
-      segment.css('left', section.posX);
-      segment.css('top', section.posY);
+      $('<div id="' + section.id + '" class=' + section.class + '>').appendTo($('#board'));
     }
   }
 
