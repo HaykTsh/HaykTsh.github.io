@@ -29,11 +29,11 @@ function runProgram(){
     RIGHT: 39,
   };
 
-  function crSnake(cls, pX, pY) {
+  function crSnake(pX, pY) {
 
     var obj = {
     
-      class: cls,
+      class: "snake",
       posX: pX,
       posY: pY,
     }
@@ -45,7 +45,8 @@ function runProgram(){
 
 
 
-  var snake = [];
+  var snake;
+  var direction;
 
   var speedX = 0;
   var speedY = 0;
@@ -74,25 +75,38 @@ function runProgram(){
   */
   function keyDown(event) {
     
-    if(event.which === KEY.W|| event.which === KEY.UP) {
+    if((event.which === KEY.W|| event.which === KEY.UP) && direction != "south") {
 
       speedX = 0;
       speedY = -1 * coefM;
+      direction = "north";
     }
-    if(event.which === KEY.S|| event.which === KEY.DOWN) {
+    if((event.which === KEY.S|| event.which === KEY.DOWN) && direction != "north") {
 
       speedX = 0;
       speedY = coefM;
+      direction = "south";
     }
-    if(event.which === KEY.A|| event.which === KEY.LEFT) {
+    if((event.which === KEY.A|| event.which === KEY.LEFT) && direction != "east") {
 
       speedX = -1 * coefM;
       speedY = 0;
+      direction = "west";
     }
-    if(event.which === KEY.D|| event.which === KEY.RIGHT) {
+    if((event.which === KEY.D|| event.which === KEY.RIGHT) && direction != "west") {
 
       speedX = coefM;
       speedY = 0;
+      direction = "east";
+    }
+
+
+    if(event.which === 75) {
+
+      var endSegment = snake[snake.length-1];
+
+      snake.push(crSnake(endSegment.posX, endSegement.posX));
+      drawSnake();
     }
   }
 
@@ -104,11 +118,11 @@ function runProgram(){
 
     snake = [];
 
-    snake.push(crSnake("head", BOARD_WIDTH / 2, BOARD_HEIGHT / 2));
-    snake.push(crSnake("body", BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 1)));
-    snake.push(crSnake("body", BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 2)));
-    snake.push(crSnake("body", BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 3)));
-    snake.push(crSnake("body", BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 4)));
+    snake.push(crSnake(BOARD_WIDTH / 2, BOARD_HEIGHT / 2));
+    snake.push(crSnake(BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 1)));
+    snake.push(crSnake(BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 2)));
+    snake.push(crSnake(BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 3)));
+    snake.push(crSnake(BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 4)));
     
     drawSnake();
   }
@@ -139,12 +153,6 @@ function runProgram(){
 
   }
 
-  var object = {
-
-    id: "anything",
-    speed: 5,
-  }
-
   function drawSnake() {
 
     for(var i = 0; i < snake.length; i++) {
@@ -154,6 +162,11 @@ function runProgram(){
 
       $('<div id="' + section.id + '" class=' + section.class + '>').appendTo($('#board'));
     }
+  }
+
+  function growSnake () {
+
+
   }
 
 

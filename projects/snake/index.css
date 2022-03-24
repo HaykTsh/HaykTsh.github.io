@@ -20,14 +20,7 @@ h1 {
   margin: auto;
 }
 
-.head {
-  background-color: royalblue;
-  width: 40px;
-  height: 40px;
-  position: absolute;
-}
-
-.body {
+.snake {
   background-color: lightskyblue;
   width: 40px;
   height: 40px;
