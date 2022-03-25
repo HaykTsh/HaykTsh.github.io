@@ -8,7 +8,7 @@ function runProgram(){
   ////////////////////////////////////////////////////////////////////////////////
 
   // Constant Variables
-  var FRAME_RATE = 10;
+  var FRAME_RATE = 1;
   var FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
 
   const BOARD_WIDTH = $("#board").width();
@@ -105,8 +105,8 @@ function runProgram(){
 
       var endSegment = snake[snake.length-1];
 
-      snake.push(crSnake(endSegment.posX, endSegement.posX));
-      drawSnake();
+      snake.push(crSnake(endSegment.posX, endSegment.posY));
+      drawSnake((snake.length - 1), snake.length);
     }
   }
 
@@ -120,19 +120,19 @@ function runProgram(){
 
     snake.push(crSnake(BOARD_WIDTH / 2, BOARD_HEIGHT / 2));
     snake.push(crSnake(BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 1)));
-    snake.push(crSnake(BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 2)));
-    snake.push(crSnake(BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 3)));
-    snake.push(crSnake(BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 4)));
+    //snake.push(crSnake(BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 2)));
+    //snake.push(crSnake(BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 3)));
+    //snake.push(crSnake(BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 4)));
     
-    drawSnake();
+    drawSnake(0, snake.length);
   }
 
 
   function reposSnake() {
 
-    for(var i = snake.length - 1; i >= 0; i--) {
+    for(var i = (snake.length - 1); i >= 0; i--) {
 
-      if(i == 0) {
+      if(i === 0) {
 
         snake[i].posX += speedX;
         snake[i].posY += speedY;
@@ -153,9 +153,9 @@ function runProgram(){
 
   }
 
-  function drawSnake() {
+  function drawSnake(start, stop) {
 
-    for(var i = 0; i < snake.length; i++) {
+    for(var i = start; i < stop; i++) {
 
       snake[i].id = i;
       var section = snake[i];
