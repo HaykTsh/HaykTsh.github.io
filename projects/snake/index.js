@@ -8,7 +8,7 @@ function runProgram(){
   ////////////////////////////////////////////////////////////////////////////////
 
   // Constant Variables
-  var FRAME_RATE = 1;
+  var FRAME_RATE = 10;
   var FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
 
   const BOARD_WIDTH = $("#board").width();
@@ -43,13 +43,18 @@ function runProgram(){
 
   // Game Item Objects
 
-
-
   var snake;
   var direction;
 
   var speedX = 0;
   var speedY = 0;
+
+  var apple = {
+
+    class: ".apple",
+    posX: (BOARD_WIDTH/2) + 5,
+    posY: (BOARD_HEIGHT / 2) - (coefM * 3) + 5,
+  }
 
   // one-time setup
   var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
@@ -66,8 +71,10 @@ function runProgram(){
   */
   function newFrame() {
     
-
     reposSnake();
+
+    reposApple();
+    appleFunct();
   }
   
   /* 
@@ -99,15 +106,6 @@ function runProgram(){
       speedY = 0;
       direction = "east";
     }
-
-
-    if(event.which === 75) {
-
-      var endSegment = snake[snake.length-1];
-
-      snake.push(crSnake(endSegment.posX, endSegment.posY));
-      drawSnake((snake.length - 1), snake.length);
-    }
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -120,9 +118,7 @@ function runProgram(){
 
     snake.push(crSnake(BOARD_WIDTH / 2, BOARD_HEIGHT / 2));
     snake.push(crSnake(BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 1)));
-    //snake.push(crSnake(BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 2)));
-    //snake.push(crSnake(BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 3)));
-    //snake.push(crSnake(BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 4)));
+    snake.push(crSnake(BOARD_WIDTH / 2, (BOARD_HEIGHT / 2) + (coefM * 2)));
     
     drawSnake(0, snake.length);
   }
@@ -144,13 +140,19 @@ function runProgram(){
       }
 
       var snakeIDNum = snake[i].id;
-      var snakeID = "#" + snakeIDNum.toString(16);
+      var snakeID = "#" + snakeIDNum.toString(10);
 
       $(snakeID).css('left', snake[i].posX);
       $(snakeID).css('top', snake[i].posY);
     }
 
 
+  }
+
+  function reposApple() {
+
+    $(apple.class).css('left', apple.posX);
+    $(apple.class).css('top', apple.posY);
   }
 
   function drawSnake(start, stop) {
@@ -164,11 +166,20 @@ function runProgram(){
     }
   }
 
+
+
   function growSnake () {
+
+    var endSegment = snake[snake.length - 1];
+
+    snake.push(crSnake(endSegment.posX, endSegment.posY));
+    drawSnake((snake.length - 1), snake.length);
+  }
+
+  function appleFunct() {
 
 
   }
-
 
   function endGame() {
     // stop the interval timer
