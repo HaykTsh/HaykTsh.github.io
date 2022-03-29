@@ -73,7 +73,7 @@ function runProgram(){
     
     reposSnake();
 
-    reposApple();
+    drawApple();
     appleFunct();
   }
   
@@ -105,6 +105,12 @@ function runProgram(){
       speedX = coefM;
       speedY = 0;
       direction = "east";
+    }
+
+    if(event.which === 75) {
+
+      apple.posX = ((Math.round(Math.random() * 22)) * 40) + 5;
+      apple.posY = ((Math.round(Math.random() * 22)) * 40) + 5;
     }
   }
 
@@ -149,7 +155,7 @@ function runProgram(){
 
   }
 
-  function reposApple() {
+  function drawApple() {
 
     $(apple.class).css('left', apple.posX);
     $(apple.class).css('top', apple.posY);
@@ -176,9 +182,19 @@ function runProgram(){
     drawSnake((snake.length - 1), snake.length);
   }
 
+  function moveApple() {
+
+    apple.posX = ((Math.round(Math.random() * 22)) * 40) + 5;
+    apple.posY = ((Math.round(Math.random() * 22)) * 40) + 5;
+  }
+
   function appleFunct() {
 
+    if(((snake[0].posX + 5) === apple.posX) && ((snake[0].posY + 5) === apple.posY)) {
 
+      moveApple();
+      growSnake();
+    }
   }
 
   function endGame() {
