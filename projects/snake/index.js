@@ -8,7 +8,7 @@ function runProgram(){
   ////////////////////////////////////////////////////////////////////////////////
 
   // Constant Variables
-  var FRAME_RATE = 10;
+  var FRAME_RATE = 20;
   var FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
 
   const BOARD_WIDTH = $("#board").width();
@@ -36,6 +36,7 @@ function runProgram(){
       class: "snake",
       posX: pX,
       posY: pY,
+      color: 'lightskyblue',
     }
 
     return obj
@@ -109,8 +110,8 @@ function runProgram(){
 
     if(event.which === 75) {
 
-      apple.posX = ((Math.round(Math.random() * 22)) * 40) + 5;
-      apple.posY = ((Math.round(Math.random() * 22)) * 40) + 5;
+      apple.posX = ((Math.round(Math.random() * 22)) * coefM) + 5;
+      apple.posY = ((Math.round(Math.random() * 22)) * coefM) + 5;
     }
   }
 
@@ -150,15 +151,11 @@ function runProgram(){
 
       $(snakeID).css('left', snake[i].posX);
       $(snakeID).css('top', snake[i].posY);
+
+      $(snakeID).css('background-color', snake[i].color);
     }
 
 
-  }
-
-  function drawApple() {
-
-    $(apple.class).css('left', apple.posX);
-    $(apple.class).css('top', apple.posY);
   }
 
   function drawSnake(start, stop) {
@@ -168,24 +165,36 @@ function runProgram(){
       snake[i].id = i;
       var section = snake[i];
 
-      $('<div id="' + section.id + '" class=' + section.class + '>').appendTo($('#board'));
+      $('<div id="' + section.id + '" class=' + section.class + '>').appendTo($('#board')).css('background-color', 'black');
     }
   }
 
-
-
   function growSnake () {
 
-    var endSegment = snake[snake.length - 1];
+    snake.push(crSnake(0, 0));
 
-    snake.push(crSnake(endSegment.posX, endSegment.posY));
+    
     drawSnake((snake.length - 1), snake.length);
   }
 
   function moveApple() {
 
-    apple.posX = ((Math.round(Math.random() * 22)) * 40) + 5;
-    apple.posY = ((Math.round(Math.random() * 22)) * 40) + 5;
+    apple.posX = ((Math.round(Math.random() * 21)) * coefM) + 5;
+    apple.posY = ((Math.round(Math.random() * 21)) * coefM) + 5;
+
+    for(var i = 0; i < snake.length; i++){
+
+      if(apple.posX === (snake[i].posX + 5) && apple.posY === (snake[i].posY + 5)) {
+
+        moveApple();
+      }
+    }
+  }
+
+  function drawApple() {
+
+    $(apple.class).css('left', apple.posX);
+    $(apple.class).css('top', apple.posY);
   }
 
   function appleFunct() {
