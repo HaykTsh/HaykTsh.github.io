@@ -8,7 +8,7 @@ function runProgram(){
   ////////////////////////////////////////////////////////////////////////////////
 
   // Constant Variables
-  var FRAME_RATE = 20;
+  var FRAME_RATE = 10;
   var FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
 
   const BOARD_WIDTH = $("#board").width();
@@ -31,12 +31,16 @@ function runProgram(){
 
   function crSnake(pX, pY) {
 
+    var colorCoef = randomizeColor(30);
+
+    var colorNum = (snake.length === 0) ? 'rgb(' + (21) + ', ' + (211) + ', ' + (116) + ')' : 'rgb(' + (125 + colorCoef) + ', ' + (200 + colorCoef) + ', ' + (225 + colorCoef) + ')';
+
     var obj = {
     
       class: "snake",
       posX: pX,
       posY: pY,
-      color: 'lightskyblue',
+      color: colorNum, //rgb(135, 206, 250) "lightskyblue"
     }
 
     return obj
@@ -204,6 +208,14 @@ function runProgram(){
       moveApple();
       growSnake();
     }
+  }
+
+  function randomizeColor(highestVal) {
+
+    var colorRandom = Math.round(Math.random() * highestVal);
+    var polarity = Math.random() > 0.5 ? -1 : 1;
+
+    return (colorRandom * polarity);
   }
 
   function endGame() {
