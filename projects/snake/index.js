@@ -41,6 +41,8 @@ function runProgram(){
       posX: pX,
       posY: pY,
       color: colorNum, //rgb(135, 206, 250) "lightskyblue"
+      h: coefM,
+      w: coefM,
     }
 
     return obj
@@ -77,6 +79,8 @@ function runProgram(){
   function newFrame() {
     
     reposSnake();
+    keepInBounds();
+    moveSnake();
 
     drawApple();
     appleFunct();
@@ -150,6 +154,23 @@ function runProgram(){
         snake[i].posY = snake[(i-1)].posY;
       }
 
+      //var snakeIDNum = snake[i].id;
+      //var snakeID = "#" + snakeIDNum.toString(10);
+      
+      /*
+      $(snakeID).css('left', snake[i].posX);
+      $(snakeID).css('top', snake[i].posY);
+
+      $(snakeID).css('background-color', snake[i].color);
+      */
+    }
+
+  }
+
+  function moveSnake() {
+
+    for(var i = (snake.length - 1); i >= 0; i--) {
+
       var snakeIDNum = snake[i].id;
       var snakeID = "#" + snakeIDNum.toString(10);
 
@@ -158,8 +179,6 @@ function runProgram(){
 
       $(snakeID).css('background-color', snake[i].color);
     }
-
-
   }
 
   function drawSnake(start, stop) {
@@ -216,6 +235,16 @@ function runProgram(){
     var polarity = Math.random() > 0.5 ? -1 : 1;
 
     return (colorRandom * polarity);
+  }
+
+  function keepInBounds() {
+
+    console.log(snake[0].w);
+
+    if(snake[0].posX > (BOARD_WIDTH - (2 * snake[0].w)) || snake[0].posX < snake[0].w || snake[0].posY > (BOARD_HEIGHT - (2 * snake[0].h)) || snake[0].posY < snake[0].h) {
+
+      endGame();
+    }
   }
 
   function endGame() {
