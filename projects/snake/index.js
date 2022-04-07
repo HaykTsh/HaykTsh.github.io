@@ -8,7 +8,7 @@ function runProgram(){
   ////////////////////////////////////////////////////////////////////////////////
 
   // Constant Variables
-  var FRAME_RATE = 3;
+  var FRAME_RATE = 15;
   var FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
 
   const BOARD_WIDTH = $("#board").width();
@@ -80,13 +80,11 @@ function runProgram(){
   */
   function newFrame() {
     
-    //keepInBounds();
     reposSnake();
-    //keepInBounds();
     moveSnake();
-    //keepInBounds();
+    keepInBounds();
 
-    //bodyCollision();
+    bodyCollision();
 
     drawApple();
     appleFunct();
@@ -182,6 +180,7 @@ function runProgram(){
       var snakeIDNum = snake[i].id;
       var snakeID = "#" + snakeIDNum.toString(10);
 
+
       $(snakeID).css('left', snake[i].posX);
       $(snakeID).css('top', snake[i].posY);
 
@@ -210,8 +209,8 @@ function runProgram(){
 
   function moveApple() {
 
-    apple.posX = ((Math.round(Math.random() * 21)) * coefM) + 5;
-    apple.posY = ((Math.round(Math.random() * 21)) * coefM) + 5;
+    apple.posX = ((Math.round(Math.random() * 21)) * coefM) + ((5/40) * coefM);
+    apple.posY = ((Math.round(Math.random() * 21)) * coefM) + ((5/40) * coefM);
 
     for(var i = 0; i < snake.length; i++){
 
@@ -230,7 +229,7 @@ function runProgram(){
 
   function appleFunct() {
 
-    if(((snake[0].posX + 5) === apple.posX) && ((snake[0].posY + 5) === apple.posY)) {
+    if(((snake[0].posX + ((5/40) * coefM)) === apple.posX) && ((snake[0].posY + ((5/40) * coefM)) === apple.posY)) {
 
       moveApple();
       growSnake();
@@ -247,7 +246,28 @@ function runProgram(){
 
   function keepInBounds() {
 
-    if(snake[0].posX > (BOARD_WIDTH - (1 * snake[0].w)) || snake[0].posX < snake[0].w - (1 * snake[0].w) || snake[0].posY > (BOARD_HEIGHT - (0 * snake[0].h)) || snake[0].posY < snake[0].h - (2 * snake[0].h)) {
+    if(snake[0].posX > (BOARD_WIDTH - snake[0].w) || snake[0].posX < 0 || snake[0].posY > (BOARD_HEIGHT - snake[0].h) || snake[0].posY < 0) {
+      
+      if(snake[0].posX > (BOARD_WIDTH - (1 * snake[0].w))) {
+
+        snake[0].posX = (BOARD_WIDTH - snake[0].w);
+        moveSnake();
+      }
+      if(snake[0].posX < 0) {
+
+        snake[0].posX = 0;
+        moveSnake();
+      }
+      if(snake[0].posY > (BOARD_HEIGHT - snake[0].h)) {
+
+        snake[0].posY = (BOARD_HEIGHT - snake[0].h);
+        moveSnake();
+      }
+      if(snake[0].posY < 0) {
+
+        snake[0].posY = 0;
+        moveSnake();
+      }
 
       endGame();
     }
