@@ -8,7 +8,7 @@ function runProgram(){
   ////////////////////////////////////////////////////////////////////////////////
 
   // Constant Variables
-  var FRAME_RATE = 10;
+  var FRAME_RATE = 3;
   var FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
 
   const BOARD_WIDTH = $("#board").width();
@@ -51,10 +51,12 @@ function runProgram(){
   // Game Item Objects
 
   var snake;
-  var direction;
+  var direction = "north";
 
   var speedX = 0;
-  var speedY = 0;
+  var speedY = coefM;
+
+  var start = false;
 
   var apple = {
 
@@ -78,9 +80,13 @@ function runProgram(){
   */
   function newFrame() {
     
+    //keepInBounds();
     reposSnake();
-    keepInBounds();
+    //keepInBounds();
     moveSnake();
+    //keepInBounds();
+
+    //bodyCollision();
 
     drawApple();
     appleFunct();
@@ -91,29 +97,38 @@ function runProgram(){
   */
   function keyDown(event) {
     
+
     if((event.which === KEY.W|| event.which === KEY.UP) && direction != "south") {
 
       speedX = 0;
       speedY = -1 * coefM;
       direction = "north";
+
+      start = true;
     }
     if((event.which === KEY.S|| event.which === KEY.DOWN) && direction != "north") {
 
       speedX = 0;
       speedY = coefM;
       direction = "south";
+
+      start = true;
     }
     if((event.which === KEY.A|| event.which === KEY.LEFT) && direction != "east") {
 
       speedX = -1 * coefM;
       speedY = 0;
       direction = "west";
+
+      start = true;
     }
     if((event.which === KEY.D|| event.which === KEY.RIGHT) && direction != "west") {
 
       speedX = coefM;
       speedY = 0;
       direction = "east";
+
+      start = true;
     }
 
     if(event.which === 75) {
@@ -143,26 +158,19 @@ function runProgram(){
 
     for(var i = (snake.length - 1); i >= 0; i--) {
 
-      if(i === 0) {
+      if(start) {
+        
+        if(i === 0) {
 
-        snake[i].posX += speedX;
-        snake[i].posY += speedY;
+          snake[i].posX += speedX;
+          snake[i].posY += speedY;
+        }
+        else {
+
+          snake[i].posX = snake[(i-1)].posX;
+          snake[i].posY = snake[(i-1)].posY;
+        }
       }
-      else {
-
-        snake[i].posX = snake[(i-1)].posX;
-        snake[i].posY = snake[(i-1)].posY;
-      }
-
-      //var snakeIDNum = snake[i].id;
-      //var snakeID = "#" + snakeIDNum.toString(10);
-      
-      /*
-      $(snakeID).css('left', snake[i].posX);
-      $(snakeID).css('top', snake[i].posY);
-
-      $(snakeID).css('background-color', snake[i].color);
-      */
     }
 
   }
@@ -207,7 +215,7 @@ function runProgram(){
 
     for(var i = 0; i < snake.length; i++){
 
-      if(apple.posX === (snake[i].posX + 5) && apple.posY === (snake[i].posY + 5)) {
+      if(apple.posX === (snake[i].posX + ((5/40) * coefM)) && apple.posY === (snake[i].posY + ((5/40) * coefM))) {
 
         moveApple();
       }
@@ -239,11 +247,20 @@ function runProgram(){
 
   function keepInBounds() {
 
-    console.log(snake[0].w);
-
-    if(snake[0].posX > (BOARD_WIDTH - (2 * snake[0].w)) || snake[0].posX < snake[0].w || snake[0].posY > (BOARD_HEIGHT - (2 * snake[0].h)) || snake[0].posY < snake[0].h) {
+    if(snake[0].posX > (BOARD_WIDTH - (1 * snake[0].w)) || snake[0].posX < snake[0].w - (1 * snake[0].w) || snake[0].posY > (BOARD_HEIGHT - (0 * snake[0].h)) || snake[0].posY < snake[0].h - (2 * snake[0].h)) {
 
       endGame();
+    }
+  }
+
+  function bodyCollision() {
+
+    for(var i = 1; i < snake.length; i++){
+
+      if(snake[0].posX === snake[i].posX && snake[0].posY === snake[i].posY){
+
+        endGame();
+      }
     }
   }
 
