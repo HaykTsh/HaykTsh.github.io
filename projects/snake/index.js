@@ -14,7 +14,7 @@ function runProgram(){
   const BOARD_WIDTH = $("#board").width();
   const BOARD_HEIGHT = $("#board").height();
 
-  const coefM = 40;
+  const coefM = 40;   
 
   var KEY = {
 
@@ -318,7 +318,8 @@ function runProgram(){
     start = false;
     movement = false;
 
-    $("#board").css('background-color', "rgb(220, 20, 20)");
+    $("#board").css('background-color', "rgb(200, 40, 40)");
+    $("#loseMessage").text('YOU HAVE LOST - Press "R" to restart');
   }
 
   function endGame() {
