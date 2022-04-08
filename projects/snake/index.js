@@ -8,7 +8,7 @@ function runProgram(){
   ////////////////////////////////////////////////////////////////////////////////
 
   // Constant Variables
-  var FRAME_RATE = 15;
+  var FRAME_RATE = 10;
   var FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
 
   const BOARD_WIDTH = $("#board").width();
@@ -27,6 +27,8 @@ function runProgram(){
     LEFT: 37,
     DOWN: 40,
     RIGHT: 39,
+
+    R: 82,
   };
 
   function crSnake(pX, pY) {
@@ -57,6 +59,7 @@ function runProgram(){
   var speedY = coefM;
 
   var start = false;
+  var movement = true;
 
   var apple = {
 
@@ -95,44 +98,44 @@ function runProgram(){
   */
   function keyDown(event) {
     
+    if(movement) {
+      if((event.which === KEY.W|| event.which === KEY.UP) && direction != "south") {
 
-    if((event.which === KEY.W|| event.which === KEY.UP) && direction != "south") {
+        speedX = 0;
+        speedY = -1 * coefM;
+        direction = "north";
 
-      speedX = 0;
-      speedY = -1 * coefM;
-      direction = "north";
+        start = true;
+      }
+      if((event.which === KEY.S|| event.which === KEY.DOWN) && direction != "north") {
 
-      start = true;
+        speedX = 0;
+        speedY = coefM;
+        direction = "south";
+
+        start = true;
+      }
+      if((event.which === KEY.A|| event.which === KEY.LEFT) && direction != "east") {
+
+        speedX = -1 * coefM;
+        speedY = 0;
+        direction = "west";
+
+        start = true;
+      }
+      if((event.which === KEY.D|| event.which === KEY.RIGHT) && direction != "west") {
+
+        speedX = coefM;
+        speedY = 0;
+        direction = "east";
+
+        start = true;
+      }
     }
-    if((event.which === KEY.S|| event.which === KEY.DOWN) && direction != "north") {
 
-      speedX = 0;
-      speedY = coefM;
-      direction = "south";
+    if(event.which === KEY.R) {
 
-      start = true;
-    }
-    if((event.which === KEY.A|| event.which === KEY.LEFT) && direction != "east") {
-
-      speedX = -1 * coefM;
-      speedY = 0;
-      direction = "west";
-
-      start = true;
-    }
-    if((event.which === KEY.D|| event.which === KEY.RIGHT) && direction != "west") {
-
-      speedX = coefM;
-      speedY = 0;
-      direction = "east";
-
-      start = true;
-    }
-
-    if(event.which === 75) {
-
-      apple.posX = ((Math.round(Math.random() * 22)) * coefM) + 5;
-      apple.posY = ((Math.round(Math.random() * 22)) * coefM) + 5;
+      restartGame();
     }
   }
 
@@ -141,6 +144,8 @@ function runProgram(){
   ////////////////////////////////////////////////////////////////////////////////
 
   function startSnake() {
+
+    $("#board").css('background-color', "black");
 
     snake = [];
 
@@ -269,7 +274,7 @@ function runProgram(){
         moveSnake();
       }
 
-      endGame();
+      lose();
     }
   }
 
@@ -279,9 +284,41 @@ function runProgram(){
 
       if(snake[0].posX === snake[i].posX && snake[0].posY === snake[i].posY){
 
-        endGame();
+        lose();
       }
     }
+  }
+
+  function restartGame() {
+
+    start = false;
+
+    for(var i = 0; i < snake.length; i++) {
+
+      var snakeIDNum = snake[i].id;
+      var snakeID = "#" + snakeIDNum.toString(10);
+
+      $(snakeID).remove();
+    }
+
+    startSnake();
+
+    speedX = 0;
+    speedY = 0;
+
+    direction = 'north';
+    movement = true;
+
+    apple.posX = (BOARD_WIDTH/2) + 5;
+    apple.posY = (BOARD_HEIGHT / 2) - (coefM * 3) + 5;
+  }
+
+  function lose() {
+
+    start = false;
+    movement = false;
+
+    $("#board").css('background-color', "rgb(220, 20, 20)");
   }
 
   function endGame() {
