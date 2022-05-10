@@ -119,3 +119,25 @@ function moveInvaders() {
 }
 
 invadersID = setInterval(moveInvaders, 100); //moves the invaders every 5 seconds //assigned to a variable so the interval can be cleared when needed
+
+function shoot(e) {
+
+    let laserID;
+    let currentLaserIndex = currentShooterIndex;
+
+    function moveLaser() {
+
+        squares[currentLaserIndex].classList.remove('laser');
+        currentLaserIndex -= width;
+        squares[currentLaserIndex].classList.add('laser');
+
+        switch(e.key) {
+
+            case 'ArrowUp' :
+                
+                laserId = setInterval(moveLaser);
+        }
+    }
+}
+
+document.addEventListener('keydown', shoot);
