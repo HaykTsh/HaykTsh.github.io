@@ -5,6 +5,8 @@ let width = 15; //width of the board, used to prevent elements from overlapping 
 let invadersID; //contains the interval for the game
 let direction = 1; //sets the way the space invaders will be moving
 let goingRight = true; //invaders begin the game going right
+let aliensRemoved = [];
+let results = 0;
 
 
 for(let i = 0; i < 255; i++) { //runs a loop 255 times each loop:
@@ -26,7 +28,10 @@ function draw() { //draws the invaders
 
     for(var i = 0; i < alienInvaders.length; i++) { //loop running 30 times
 
-        squares[alienInvaders[i]].classList.add('invader'); //Gives the class of invader to all of the squres numbered  in the alienInvaders constant //allows the space invaders to appear onto the grid
+        if(!aliensRemoved.includes(i)) { //
+
+            squares[alienInvaders[i]].classList.add('invader'); //Gives the class of invader to all of the squres numbered  in the alienInvaders constant //allows the space invaders to appear onto the grid
+        }
     }
 }
 
@@ -115,10 +120,14 @@ function moveInvaders() {
         }
     }
     
+    if(aliensRemoved.length === alienInvaders.length) {
 
+        resultsDisplay.innerHTML = 'You Win'; //updates the text of the result element to display 'You Win'
+        clearInterval(invadersID); //stops the movement of the invaders
+    }
 }
 
-invadersID = setInterval(moveInvaders, 100); //moves the invaders every 5 seconds //assigned to a variable so the interval can be cleared when needed
+invadersID = setInterval(moveInvaders, 300); //moves the invaders every 5 seconds //assigned to a variable so the interval can be cleared when needed
 
 function shoot(e) {
 
@@ -131,12 +140,27 @@ function shoot(e) {
         currentLaserIndex -= width;
         squares[currentLaserIndex].classList.add('laser');
 
-        switch(e.key) {
+        if(squares[currentLaserIndex].classList.contains('invader')) {
 
-            case 'ArrowUp' :
-                
-                laserId = setInterval(moveLaser);
+            squares[currentLaserIndex].classList.remove('laser');
+            squares[currentLaserIndex].classList.remove('invader');
+            squares[currentLaserIndex].classList.add('boom');
+
+            setTimeout(()=> squares[currentLaserIndex].classList.remove('boom'), 300);
+            clearInterval(laserID);
+
+            const alienRemoved = alienInvaders.indexOf(currentLaserIndex);
+            results++;
+            resultsDisplay.innerHTML = results;
+            aliensRemoved.push(alienRemoved);
         }
+    }
+
+    switch(e.key) {
+
+        case 'ArrowUp' :
+            
+            laserID = setInterval(moveLaser, 100);
     }
 }
 
