@@ -5,8 +5,8 @@ let width = 15; //width of the board, used to prevent elements from overlapping 
 let invadersID; //contains the interval for the game
 let direction = 1; //sets the way the space invaders will be moving
 let goingRight = true; //invaders begin the game going right
-let aliensRemoved = [];
-let results = 0;
+let aliensRemoved = []; //array that will contain which aliens have been already killed
+let results = 0; //the amount of aliens that have been killed
 
 
 for(let i = 0; i < 255; i++) { //runs a loop 255 times each loop:
@@ -19,16 +19,16 @@ const squares = Array.from(document.querySelectorAll('.grid div')); //an array t
 
 const alienInvaders = [ //a list of ordered zero numbers excluding certain numbers to be used for line 22 //numbers are excluded because only these squres of the grids will be space invaders from the beginning
     
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 
-    15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 
-    30, 31, 32, 33, 34, 35, 36, 37, 38, 39
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, //First row
+    15, 16, 17, 18, 19, 20, 21, 22, 23, 24, //Second Row
+    30, 31, 32, 33, 34, 35, 36, 37, 38, 39 //Third Row
 ];
 
 function draw() { //draws the invaders
 
     for(var i = 0; i < alienInvaders.length; i++) { //loop running 30 times
 
-        if(!aliensRemoved.includes(i)) { //
+        if(!aliensRemoved.includes(i)) { //if the currently selected alien is not one of the aliens removed
 
             squares[alienInvaders[i]].classList.add('invader'); //Gives the class of invader to all of the squres numbered  in the alienInvaders constant //allows the space invaders to appear onto the grid
         }
@@ -120,7 +120,7 @@ function moveInvaders() {
         }
     }
     
-    if(aliensRemoved.length === alienInvaders.length) {
+    if(aliensRemoved.length === alienInvaders.length) { //if all of the aliens have been removed
 
         resultsDisplay.innerHTML = 'You Win'; //updates the text of the result element to display 'You Win'
         clearInterval(invadersID); //stops the movement of the invaders
@@ -131,12 +131,12 @@ invadersID = setInterval(moveInvaders, 300); //moves the invaders every 5 second
 
 function shoot(e) {
 
-    let laserID;
-    let currentLaserIndex = currentShooterIndex;
+    let laserID; //Holds the interval for the lasers
+    let currentLaserIndex = currentShooterIndex; //the starting laser position is the shooter's position
 
-    function moveLaser() {
+    function moveLaser() { //moves the laser
 
-        squares[currentLaserIndex].classList.remove('laser');
+        squares[currentLaserIndex].classList.remove('laser'); 
         currentLaserIndex -= width;
         squares[currentLaserIndex].classList.add('laser');
 
@@ -158,10 +158,10 @@ function shoot(e) {
 
     switch(e.key) {
 
-        case 'ArrowUp' :
+        case 'ArrowUp' : //If the key pressed is the up arrow...
             
-            laserID = setInterval(moveLaser, 100);
+            laserID = setInterval(moveLaser, 100); //move the laser on an interval of 1 second per run of the function
     }
 }
 
-document.addEventListener('keydown', shoot);
+document.addEventListener('keydown', shoot); //runs shoot() everytime a key is pressed
