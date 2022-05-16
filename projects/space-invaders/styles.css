@@ -1,36 +1,53 @@
+body {
+
+    background-color: rgb(0, 0, 0);
+}
+
 .grid {
 
-    width: 300px;
-    height: 300px;
-    border: solid black 1px;
+    width: 600px;
+    height: 600px;
+    border: solid rgb(255, 255, 255) 3px;
 
     display: flex;
     flex-wrap: wrap;
+
+    position: relative;
+    margin: auto;
 }
 
 .grid div{
 
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
 }
 
 .invader {
 
-    background-color: purple;
-    border-radius: 10px;
+    background-color: rgb(0, 255, 0);
+    border-radius: 20px;
 }
 
 .shooter {
 
-    background-color: green;
+    background-color: rgb(255, 0, 255);
+    border-radius: 10px;
 }
 
 .laser {
 
-    background-color: orange;
+    background-color: rgb(0, 255, 255);
+    border-radius: 5px;
 }
 
 .boom {
 
     background-color: red;
+    border-radius: 20px;
+}
+
+h1 {
+
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
 }

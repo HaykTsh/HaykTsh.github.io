@@ -136,23 +136,23 @@ function shoot(e) {
 
     function moveLaser() { //moves the laser
 
-        squares[currentLaserIndex].classList.remove('laser'); 
-        currentLaserIndex -= width;
-        squares[currentLaserIndex].classList.add('laser');
+        squares[currentLaserIndex].classList.remove('laser');  //removes the laser from its current position
+        currentLaserIndex -= width; //moves the laser's position up by one row
+        squares[currentLaserIndex].classList.add('laser'); //adds the laser to its new position
 
-        if(squares[currentLaserIndex].classList.contains('invader')) {
+        if(squares[currentLaserIndex].classList.contains('invader')) { //If the laser and an invader are in the same position ...
 
-            squares[currentLaserIndex].classList.remove('laser');
-            squares[currentLaserIndex].classList.remove('invader');
-            squares[currentLaserIndex].classList.add('boom');
+            squares[currentLaserIndex].classList.remove('laser'); //deletes the laser from the grid
+            squares[currentLaserIndex].classList.remove('invader'); //kills the invader
+            squares[currentLaserIndex].classList.add('boom'); //adds an explosion effect to the current position of the laser
 
-            setTimeout(()=> squares[currentLaserIndex].classList.remove('boom'), 300);
-            clearInterval(laserID);
+            setTimeout(()=> squares[currentLaserIndex].classList.remove('boom'), 300); //remove the explosion from the grid after 3 seconds 
+            clearInterval(laserID); //stop the movement of the laser
 
-            const alienRemoved = alienInvaders.indexOf(currentLaserIndex);
-            results++;
-            resultsDisplay.innerHTML = results;
-            aliensRemoved.push(alienRemoved);
+            const alienRemoved = alienInvaders.indexOf(currentLaserIndex); //the variable that holds the dead invader
+            results++; //updates the results by one per killed invader
+            resultsDisplay.innerHTML = results; //updates the results text on the screen to display the value of the results variable
+            aliensRemoved.push(alienRemoved); //add the newly removed alien to the array of all removed aliens
         }
     }
 
